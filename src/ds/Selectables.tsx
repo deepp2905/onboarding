@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
+import { spring } from './motion';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Selection surfaces used by the onboarding flow. Selection is shown by a
@@ -27,6 +28,7 @@ export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps)
       data-selected={selected}
       onClick={onSelect}
       whileTap={{ scale: 0.97 }}
+      transition={spring.snappy}
     >
       <span className="tile__top">
         <span className="tile__icon">{icon}</span>
@@ -54,7 +56,8 @@ export function Chip({ label, selected, onToggle }: ChipProps) {
       className="chip"
       data-selected={selected}
       onClick={onToggle}
-      whileTap={{ scale: 0.96 }}
+      whileTap={{ scale: 0.97 }}
+      transition={spring.snappy}
     >
       <span className="chip__label">{label}</span>
       <Indicator type="check" checked={selected} />
@@ -81,7 +84,8 @@ export function ChoiceCard({ glyph, title, description, selected, onSelect }: Ch
       className="choice"
       data-selected={selected}
       onClick={onSelect}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.97 }}
+      transition={spring.snappy}
     >
       <span className="choice__top">
         {glyph}
@@ -113,7 +117,8 @@ export function InfoCard({ label, value, onEdit }: InfoCardProps) {
         className="info-card__edit"
         onClick={onEdit}
         aria-label={`Edit ${label.toLowerCase()}`}
-        whileTap={{ scale: 0.92 }}
+        whileTap={{ scale: 0.95 }}
+        transition={spring.snappy}
       >
         <PencilIcon />
       </motion.button>

@@ -15,7 +15,7 @@ export function Button({ variant = 'primary', className, disabled, children, ...
       type="button"
       className={cx('btn', `btn--${variant}`, className)}
       disabled={disabled}
-      whileTap={disabled ? undefined : { scale: 0.98 }}
+      whileTap={disabled ? undefined : { scale: 0.97 }}
       transition={spring.snappy}
       {...rest}
     >
