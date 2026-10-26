@@ -168,3 +168,37 @@ export function LevelBarsIcon({ level, ...props }: IconProps & { level: LevelVal
     </svg>
   );
 }
+
+/* ── Discover ─────────────────────────────────────────────────────────────── */
+
+export function SearchIcon(props: IconProps) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <circle cx="10.5" cy="10.5" r="5.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M14.5 14.5L18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" {...props}>
+      <path
+        d="M5 3L9 7 5 11"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function PlayIcon(props: IconProps) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" {...props}>
+      <path d="M3 1.5L12 7 3 12.5Z" fill="currentColor" />
+    </svg>
+  );
+}

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRightIcon, Button, spring, stepVariants } from '../ds';
+import { ArrowRightIcon, Button, pageVariants, spring, stepVariants } from '../ds';
+import type { Preferences } from '../discover/Discover';
 import { getLevel, getTopic, type LevelId, type Topic } from './data';
 import { StepCounter } from './StepCounter';
 import { FocusStep } from './steps/FocusStep';
@@ -16,7 +17,7 @@ type StepId = (typeof STEPS)[number];
  * swapping inside it. Nothing remounts between steps except the question itself,
  * which is what makes the four screens read as a single fluid flow.
  */
-export function OnboardingFlow() {
+export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences) => void }) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [topicId, setTopicId] = useState<Topic['id'] | null>(null);
@@ -40,12 +41,8 @@ export function OnboardingFlow() {
 
   const handleContinue = () => {
     if (!canContinue) return;
-    if (step === 'ready') {
-      // Nothing follows onboarding in this demo, so "Get started" starts it over.
-      setTopicId(null);
-      setFocus([]);
-      setLevelId(null);
-      go(0);
+    if (step === 'ready' && topic && level) {
+      onComplete({ topic, focus, level });
       return;
     }
     go(index + 1);
@@ -78,7 +75,14 @@ export function OnboardingFlow() {
   const counterLabel = `Step ${Math.min(index + 1, 3)} of 3`;
 
   return (
-    <div className="onboarding" data-step={step}>
+    <motion.div
+      className="onboarding"
+      data-step={step}
+      variants={pageVariants}
+      initial="hidden"
+      animate="shown"
+      exit="gone"
+    >
       <div className="ambient" aria-hidden="true">
         <span className="ambient__orb ambient__orb--a" />
         <span className="ambient__orb ambient__orb--b" />
@@ -148,7 +152,7 @@ export function OnboardingFlow() {
           </div>
         </div>
       </main>
-    </div>
+    </motion.div>
   );
 }
 

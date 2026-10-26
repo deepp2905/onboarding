@@ -2,6 +2,7 @@
 @import './ds/typography.css';
 @import './ds/components.css';
 @import './onboarding/onboarding.css';
+@import './discover/discover.css';
 
 *,
 *::before,

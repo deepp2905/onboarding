@@ -45,6 +45,30 @@ export const stepVariants: Variants = {
   }),
 };
 
+/**
+ * Whole-page swap (onboarding ⇄ Discover). Uses its own labels so it never
+ * cascades into the step-level enter/center variants nested inside a page.
+ */
+export const pageVariants: Variants = {
+  hidden: { opacity: 0 },
+  shown: {
+    opacity: 1,
+    transition: { duration: 0.32, ease: easeOut, delayChildren: 0.06, staggerChildren: 0.07 },
+  },
+  gone: {
+    opacity: 0,
+    scale: 0.98,
+    filter: 'blur(4px)',
+    transition: { duration: 0.24, ease: easeOut },
+  },
+};
+
+/** Sections of a page — rise in under pageVariants' stagger. */
+export const riseVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  shown: { opacity: 1, y: 0, transition: spring.soft },
+};
+
 /** Child items of a step — inherit enter/center from the step and stagger in. */
 export const itemVariants: Variants = {
   enter: { opacity: 0, y: 12, scale: 0.985 },
