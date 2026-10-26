@@ -140,7 +140,7 @@
   justify-content: space-between;
   height: var(--spacing-12);
   padding: var(--spacing-2);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 .tile[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -222,7 +222,7 @@
   flex-direction: column;
   gap: var(--spacing-3);
   padding: var(--spacing-3);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
 }
 .choice[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -290,8 +290,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-1);
-  padding: var(--spacing-2) 64px var(--spacing-2) var(--spacing-2);
-  border-radius: var(--radius-md);
+  padding: var(--spacing-3) 64px var(--spacing-3) var(--spacing-3);
+  border-radius: var(--radius-lg);
   background: var(--color-lavender-200);
 }
 .info-card__label {
