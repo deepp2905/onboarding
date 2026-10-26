@@ -1,6 +1,5 @@
 import { useId } from 'react';
-import { motion } from 'motion/react';
-import { ChoiceCard, LevelBarsIcon, itemVariants } from '../../ds';
+import { ChoiceCard, LevelBarsIcon } from '../../ds';
 import { LEVELS, type LevelId, type Topic } from '../data';
 
 interface Props {
@@ -13,9 +12,9 @@ export function LevelStep({ topic, value, onChange }: Props) {
   const headingId = useId();
   return (
     <div className="step step--center">
-      <motion.h1 id={headingId} className="step__heading text-heading-1" variants={itemVariants}>
+      <h1 id={headingId} className="step__heading text-heading-1">
         How familiar are you with {topic.phrase}?
-      </motion.h1>
+      </h1>
       <div className="level-row" role="radiogroup" aria-labelledby={headingId}>
         {LEVELS.map((level) => (
           <ChoiceCard

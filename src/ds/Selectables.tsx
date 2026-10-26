@@ -2,7 +2,6 @@ import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
-import { itemVariants } from './motion';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Selection surfaces used by the onboarding flow. Selection is shown by a
@@ -27,7 +26,6 @@ export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps)
       className="tile"
       data-selected={selected}
       onClick={onSelect}
-      variants={itemVariants}
       whileTap={{ scale: 0.97 }}
     >
       <span className="tile__top">
@@ -56,7 +54,6 @@ export function Chip({ label, selected, onToggle }: ChipProps) {
       className="chip"
       data-selected={selected}
       onClick={onToggle}
-      variants={itemVariants}
       whileTap={{ scale: 0.96 }}
     >
       <span className="chip__label">{label}</span>
@@ -84,7 +81,6 @@ export function ChoiceCard({ glyph, title, description, selected, onSelect }: Ch
       className="choice"
       data-selected={selected}
       onClick={onSelect}
-      variants={itemVariants}
       whileTap={{ scale: 0.98 }}
     >
       <span className="choice__top">
@@ -109,7 +105,7 @@ export interface InfoCardProps {
 
 export function InfoCard({ label, value, onEdit }: InfoCardProps) {
   return (
-    <motion.div className="info-card" variants={itemVariants}>
+    <div className="info-card">
       <span className="info-card__label text-label-md">{label}</span>
       <span className="info-card__value text-heading-3">{value}</span>
       <motion.button
@@ -121,6 +117,6 @@ export function InfoCard({ label, value, onEdit }: InfoCardProps) {
       >
         <PencilIcon />
       </motion.button>
-    </motion.div>
+    </div>
   );
 }
