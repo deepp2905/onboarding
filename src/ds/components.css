@@ -334,6 +334,19 @@
   outline-offset: 2px;
 }
 
+/* Controls and decorative glyphs aren't text to select. */
+.btn,
+.tile,
+.chip,
+.choice,
+.indicator,
+.info-card__edit,
+.btn__icon,
+.tile__icon,
+.step-counter {
+  user-select: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tile__icon[data-bounce='true'],
   .choice[data-selected='true'] .level-bars__bar {
