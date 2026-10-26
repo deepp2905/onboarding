@@ -308,6 +308,13 @@
   cursor: pointer;
   transition: background-color var(--duration-base) var(--ease-out);
 }
+/* Extends the 40px button's hit area to 44px without changing layout */
+.info-card__edit::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+}
 @media (hover: hover) and (pointer: fine) {
   .info-card__edit:hover {
     background: var(--color-lavender-300);
