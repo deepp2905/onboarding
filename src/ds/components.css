@@ -166,6 +166,9 @@
   .tile:hover[data-selected='false'] .tile__icon {
     transform: translateY(-3px);
   }
+  .tile:hover[data-selected='false']:active .tile__icon {
+    transform: translateY(0);
+  }
 }
 .tile[data-selected='true'] .tile__icon {
   color: var(--color-lavender-700);
