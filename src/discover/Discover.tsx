@@ -255,8 +255,47 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
           <section className="discover__hero">
             <motion.div className="discover__intro" variants={riseVariants}>
               <h1 className="discover__greeting">
-                {USER_NAME}, {copy.greeting} {topic.phrase}.
+                {USER_NAME}, {copy.greeting} {topic.phrase}
               </h1>
+              <AnimatePresence>
+                {showPathPromo && (
+                  <motion.aside
+                    key="path-promo"
+                    className="path-promo"
+                    aria-label="Personalized learning path"
+                    variants={settleVariants}
+                    // Collapse into the hero's 24px gap so the rows below glide up.
+                    exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
+                    transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
+                  >
+                    <span className="path-promo__icon">
+                      <PathIcon />
+                    </span>
+                    <div className="path-promo__copy">
+                      <h2 className="path-promo__title">Get a personalized path in {topic.phrase}</h2>
+                      <p className="path-promo__body">
+                        Built around {midSentence(formatInterests(topic, focus))}, {copy.pathStart}.
+                      </p>
+                    </div>
+                    <motion.button
+                      type="button"
+                      className="path-promo__cta"
+                      whileTap={{ scale: 0.97 }}
+                      transition={spring.snappy}
+                    >
+                      Build a path
+                    </motion.button>
+                    <button
+                      type="button"
+                      className="path-promo__close"
+                      aria-label="Dismiss"
+                      onClick={() => setShowPathPromo(false)}
+                    >
+                      <CloseIcon />
+                    </button>
+                  </motion.aside>
+                )}
+              </AnimatePresence>
               <div className="featured">
                 <div className="featured__art" aria-hidden="true">
                   <span className="featured__dot featured__dot--back" />
@@ -280,45 +319,6 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                 </div>
               </div>
             </motion.div>
-            <AnimatePresence>
-              {showPathPromo && (
-                <motion.aside
-                  key="path-promo"
-                  className="path-promo"
-                  aria-label="Personalized learning path"
-                  variants={settleVariants}
-                  // Collapse into the hero's 24px gap so the rows below glide up.
-                  exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
-                  transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
-                >
-                  <span className="path-promo__icon">
-                    <PathIcon />
-                  </span>
-                  <div className="path-promo__copy">
-                    <h2 className="path-promo__title">Get a personalized path in {topic.phrase}</h2>
-                    <p className="path-promo__body">
-                      Built around {midSentence(formatInterests(topic, focus))}, {copy.pathStart}.
-                    </p>
-                  </div>
-                  <motion.button
-                    type="button"
-                    className="path-promo__cta"
-                    whileTap={{ scale: 0.97 }}
-                    transition={spring.snappy}
-                  >
-                    Build a path
-                  </motion.button>
-                  <button
-                    type="button"
-                    className="path-promo__close"
-                    aria-label="Dismiss"
-                    onClick={() => setShowPathPromo(false)}
-                  >
-                    <CloseIcon />
-                  </button>
-                </motion.aside>
-              )}
-            </AnimatePresence>
           </section>
         )}
 
