@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRightIcon, Button, pageVariants, spring, stepVariants } from '../ds';
+import { ArrowRightIcon, Button, easeOut, pageVariants, spring, stepVariants } from '../ds';
 import type { Preferences } from '../discover/Discover';
 import { getLevel, getTopic, type LevelId, type Topic } from './data';
 import { StepCounter } from './StepCounter';
@@ -122,7 +122,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
                   initial={{ flexGrow: 0.0001, marginRight: 0, opacity: 0 }}
                   animate={{ flexGrow: 1, marginRight: 16, opacity: 1 }}
                   exit={{ flexGrow: 0.0001, marginRight: 0, opacity: 0 }}
-                  transition={{ ...spring.soft, opacity: { duration: 0.18 } }}
+                  transition={{ ...spring.soft, opacity: { duration: 0.18, ease: easeOut } }}
                 >
                   <Button variant="secondary" onClick={() => go(index - 1)}>
                     Back
