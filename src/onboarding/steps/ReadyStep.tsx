@@ -13,7 +13,7 @@ export function ReadyStep({ topic, focus, level, onEdit }: Props) {
   return (
     <div className="step">
       <motion.div className="ready__title" variants={itemVariants}>
-        <h1 className="text-heading-1">{USER_NAME}, your experience is ready</h1>
+        <h1 className="text-heading-1">{USER_NAME}, we’ve got you covered</h1>
         <motion.span
           className="ready__badge"
           initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
