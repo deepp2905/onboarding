@@ -253,11 +253,11 @@
 }
 .choice[data-selected='true'] .level-bars__bar[data-filled='true'] {
   fill: var(--color-lavender-800);
-  animation: bar-rise 520ms var(--ease-out) both;
+  animation: bar-rise 300ms var(--ease-out) both;
 }
 @keyframes bar-rise {
   0% { transform: scaleY(0.2); }
-  60% { transform: scaleY(1.12); }
+  60% { transform: scaleY(1.05); }
   100% { transform: scaleY(1); }
 }
 
