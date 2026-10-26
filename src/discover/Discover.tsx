@@ -94,6 +94,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
         >
           <span className="menu-toggle__bar" />
           <span className="menu-toggle__bar" />
+          <span className="menu-toggle__bar" />
         </button>
         <div id="discover-menu" className="discover__menu" data-open={menuOpen}>
           <div className="discover__menu-inner">
