@@ -17,20 +17,66 @@
 .discover__nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-3);
+  gap: var(--spacing-12);
   padding: var(--spacing-3) var(--spacing-6);
   border-bottom: 1px solid var(--color-neutral-200);
 }
-.discover__nav-start {
+/* Inline on desktop; becomes the collapsible panel on mobile. */
+.discover__menu,
+.discover__menu-inner {
   display: flex;
+  flex: 1;
   align-items: center;
-  gap: var(--spacing-12);
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  min-width: 0;
 }
 .discover__nav-end {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+}
+
+.menu-toggle {
+  display: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px; /* align the bars, not the hit area, with the gutter */
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--color-neutral-950);
+  cursor: pointer;
+}
+.menu-toggle__bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -10px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.menu-toggle__bar:first-child {
+  transform: translateY(-4px);
+}
+.menu-toggle__bar:last-child {
+  transform: translateY(4px);
+}
+.menu-toggle[aria-expanded='true'] .menu-toggle__bar:first-child {
+  transform: rotate(45deg);
+}
+.menu-toggle[aria-expanded='true'] .menu-toggle__bar:last-child {
+  transform: rotate(-45deg);
+}
+.menu-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .wordmark--button {
@@ -109,6 +155,36 @@
 }
 .search__input::-webkit-search-cancel-button {
   cursor: pointer;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--color-neutral-900);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-label-md);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+.account:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* Desktop shows the avatar alone; the label still names the button. */
+.account__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .avatar {
@@ -446,10 +522,8 @@
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .discover__nav {
-    padding-inline: var(--gutter);
-  }
-  .discover__nav-start {
     gap: var(--spacing-6);
+    padding-inline: var(--gutter);
   }
   .search {
     width: 240px;
@@ -476,25 +550,77 @@
 }
 
 @media (max-width: 760px) {
-  .discover__links {
-    display: none;
-  }
+  /* Nav collapses to wordmark + toggle; the menu opens below as a full-width panel. */
   .discover__nav {
-    padding-block: var(--spacing-2);
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+    padding-block: var(--spacing-1);
+  }
+  .menu-toggle {
+    display: block;
+  }
+  .discover__menu {
+    display: grid;
+    flex-basis: 100%;
+    grid-template-rows: 0fr;
+    visibility: hidden; /* keeps the closed menu out of the tab order */
+    transition:
+      grid-template-rows var(--duration-base) var(--ease-out),
+      visibility 0s linear var(--duration-base);
+  }
+  .discover__menu[data-open='true'] {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .discover__menu-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-1);
+    min-height: 0;
+    overflow: hidden;
+    /* Room for focus rings, which overflow: hidden would otherwise clip. */
+    margin-inline: -6px;
+    padding-inline: 6px;
+  }
+  /* Flatten so search, links and account can be ordered as one list. */
+  .discover__nav-end {
+    display: contents;
   }
   .search {
+    order: -1;
     width: auto;
-    flex: 1;
     height: var(--spacing-6);
+    margin-top: var(--spacing-1);
   }
-  .discover__nav-end {
-    flex: 1;
-    justify-content: flex-end;
-    max-width: 320px;
+  .discover__links {
+    flex-direction: column;
+    gap: 0;
+  }
+  .discover__link {
+    height: var(--spacing-6);
+    text-align: left;
+  }
+  .account {
+    margin-bottom: var(--spacing-2);
+    padding-top: var(--spacing-1);
+    border-top: 1px solid var(--color-neutral-200);
+    border-radius: 0;
+  }
+  .account:focus-visible {
+    border-radius: var(--radius-sm);
+  }
+  .account__label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
   }
   .avatar {
-    width: var(--spacing-6);
-    height: var(--spacing-6);
+    width: var(--spacing-5);
+    height: var(--spacing-5);
   }
   .discover__content {
     gap: var(--spacing-8);
@@ -538,7 +664,7 @@
 }
 
 @media (max-width: 560px) {
-  .discover__nav-start .wordmark {
+  .discover__nav .wordmark {
     font-size: var(--text-heading-3);
   }
   .featured {
@@ -550,6 +676,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .discover__menu,
+  .menu-toggle__bar,
   .featured__dot,
   .thumb__dot,
   .see-all svg {

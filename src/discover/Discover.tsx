@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
@@ -48,8 +48,24 @@ const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.l
 export function Discover({ topic, focus, level, onRestart }: Props) {
   const [query, setQuery] = useState('');
   const [showPathPromo, setShowPathPromo] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
   const featured = CONTENT[topic.id].featured[level.id];
   const rows = useMemo(() => buildRows(topic, focus, level.id), [topic, focus, level.id]);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  // Escape closes the mobile menu and hands focus back to its toggle.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setMenuOpen(false);
+      menuToggleRef.current?.focus();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
 
   const needle = query.trim().toLowerCase();
   const visibleRows = rows
@@ -63,36 +79,57 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
   return (
     <motion.div className="discover" variants={staggerPageVariants} initial="hidden" animate="shown" exit="gone">
       <motion.header className="discover__nav" variants={fadeVariants}>
-        <div className="discover__nav-start">
-          <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
-            LearnVector
-          </button>
-          <nav className="discover__links" aria-label="Primary">
-            <button type="button" className="discover__link" aria-current="page">
-              Discover
-            </button>
-            <button type="button" className="discover__link">
-              My path
-            </button>
-            <button type="button" className="discover__link">
-              Saved
-            </button>
-          </nav>
-        </div>
-        <div className="discover__nav-end">
-          <label className="search">
-            <SearchIcon className="search__icon" />
-            <input
-              type="search"
-              className="search__input"
-              placeholder="Search lessons"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
-          <span className="avatar" aria-label={USER_NAME}>
-            {USER_NAME.charAt(0)}
-          </span>
+        <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
+          LearnVector
+        </button>
+        {/* Below 760px the links, search and account collapse behind this toggle. */}
+        <button
+          ref={menuToggleRef}
+          type="button"
+          className="menu-toggle"
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+          aria-controls="discover-menu"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className="menu-toggle__bar" />
+          <span className="menu-toggle__bar" />
+        </button>
+        <div id="discover-menu" className="discover__menu" data-open={menuOpen}>
+          <div className="discover__menu-inner">
+            <nav className="discover__links" aria-label="Primary">
+              <button type="button" className="discover__link" aria-current="page" onClick={closeMenu}>
+                Discover
+              </button>
+              <button type="button" className="discover__link" onClick={closeMenu}>
+                My path
+              </button>
+              <button type="button" className="discover__link" onClick={closeMenu}>
+                Saved
+              </button>
+            </nav>
+            <div className="discover__nav-end">
+              <label className="search">
+                <SearchIcon className="search__icon" />
+                <input
+                  type="search"
+                  className="search__input"
+                  placeholder="Search lessons"
+                  enterKeyHint="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  // On mobile, Enter folds the menu away so the filtered rows are in view.
+                  onKeyDown={(e) => e.key === 'Enter' && closeMenu()}
+                />
+              </label>
+              <button type="button" className="account" onClick={closeMenu}>
+                <span className="avatar" aria-hidden="true">
+                  {USER_NAME.charAt(0)}
+                </span>
+                <span className="account__label">My account</span>
+              </button>
+            </div>
+          </div>
         </div>
       </motion.header>
 
