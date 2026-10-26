@@ -157,16 +157,22 @@
   height: 40px;
   margin: -2px 0 0 -2px;
   color: var(--color-neutral-700);
-  transition:
-    color var(--duration-base) var(--ease-out),
-    transform 180ms cubic-bezier(0.37, 0, 0.63, 1);
+  transition: color var(--duration-base) var(--ease-out);
 }
-/* Lifts while hovered and settles back on de-hover or select. */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .tile:hover[data-selected='false'] .tile__icon {
-    transform: translateY(-3px);
+/* On tap or click release: 200ms ease-out up, 200ms ease-in back down. Fill mode holds the rest position. */
+.tile__icon[data-bounce='true'] {
+  animation: icon-bounce 400ms both;
+}
+@keyframes icon-bounce {
+  0% {
+    transform: translateY(0);
+    animation-timing-function: var(--ease-out);
   }
-  .tile:hover[data-selected='false']:active .tile__icon {
+  50% {
+    transform: translateY(-3px);
+    animation-timing-function: cubic-bezier(0.64, 0, 0.78, 0);
+  }
+  100% {
     transform: translateY(0);
   }
 }
@@ -329,6 +335,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .tile__icon[data-bounce='true'],
   .choice[data-selected='true'] .level-bars__bar {
     animation: none;
   }

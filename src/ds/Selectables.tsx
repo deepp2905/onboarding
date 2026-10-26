@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
 import { itemVariants, spring } from './motion';
@@ -19,6 +19,9 @@ export interface OptionTileProps {
 }
 
 export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps) {
+  // A release on an unselected tile bounces its icon. Each tap remounts the icon, so the bounce replays from rest.
+  const [taps, setTaps] = useState(0);
+
   return (
     <motion.button
       type="button"
@@ -27,12 +30,19 @@ export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps)
       className="tile"
       data-selected={selected}
       onClick={onSelect}
+      onTap={() => {
+        if (!selected && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+          setTaps((n) => n + 1);
+        }
+      }}
       variants={itemVariants}
       whileTap={{ scale: 0.97 }}
       transition={spring.snappy}
     >
       <span className="tile__top">
-        <span className="tile__icon">{icon}</span>
+        <span key={taps} className="tile__icon" data-bounce={taps > 0}>
+          {icon}
+        </span>
         <Indicator type="radio" checked={selected} />
       </span>
       <span className="tile__label">{label}</span>
