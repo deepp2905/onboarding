@@ -656,7 +656,8 @@
     width: 100%;
     height: var(--spacing-6);
   }
-  /* The floating corner badge would crowd the gutter here, so it tucks inside. */
+  /* The floating corner badge would crowd the gutter here, so it tucks inside.
+     12px puts the 16px glyph on the card's 16px padding, top and right. */
   .path-promo__close {
     top: 12px;
     right: 12px;
@@ -708,11 +709,6 @@
   .path-promo__copy {
     flex-basis: auto;
     padding-right: 0;
-  }
-  /* Centred on the icon row. */
-  .path-promo__close {
-    top: 28px;
-    right: var(--spacing-2);
   }
 }
 
