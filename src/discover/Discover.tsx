@@ -46,14 +46,27 @@ const TONES: { bg: string; dot: string }[][] = [
 ];
 
 /**
- * Mobile menu: the panel drops in, then its items stagger in with the same
- * rise as the onboarding step items. Closing fades everything out together.
+ * Mobile menu: the sheet unrolls from its top edge, and its items stagger in once
+ * it has landed. The clip runs past the sides and bottom so the shadow isn't cut off.
+ * Closing retracts the sheet after the items have faded.
  */
-const menuPanelVariants: Variants = {
-  closed: { opacity: 0, y: -8, transition: { duration: 0.16, ease: easeOut } },
+const menuSheetVariants: Variants = {
+  closed: {
+    clipPath: 'inset(0px -24px 100% -24px)',
+    y: -12,
+    transition: { duration: 0.24, ease: easeOut, delay: 0.06 },
+  },
+  open: {
+    clipPath: 'inset(0px -24px -40px -24px)',
+    y: 0,
+    transition: { duration: 0.36, ease: easeOut, staggerChildren: 0.035 },
+  },
+};
+/** Reduced motion: the sheet fades in place, with no wipe or travel. */
+const menuFadeVariants: Variants = {
+  closed: { opacity: 0, transition: { duration: 0.16, ease: easeOut } },
   open: {
     opacity: 1,
-    y: 0,
     transition: { duration: 0.2, ease: easeOut, delayChildren: 0.04, staggerChildren: 0.035 },
   },
 };
@@ -190,10 +203,14 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
               <motion.div
                 className="mobile-menu__scrim"
                 variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
-                transition={{ duration: 0.2, ease: easeOut }}
+                transition={{ duration: 0.36, ease: easeOut }}
                 onClick={closeMenu}
               />
-              <motion.div id="mobile-menu" className="mobile-menu__panel" variants={menuPanelVariants}>
+              <motion.div
+                id="mobile-menu"
+                className="mobile-menu__panel"
+                variants={reduceMotion ? menuFadeVariants : menuSheetVariants}
+              >
                 {/* Enter folds the menu away so the filtered rows are in view. */}
                 <motion.div variants={menuItemVariants}>
                   <SearchField value={query} onChange={setQuery} onSubmit={closeMenu} />
