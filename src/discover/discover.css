@@ -490,15 +490,27 @@
 .thumb[data-shape='2'] .thumb__dot { left: 60.3%; top: -28.4%; width: 56.7%; }
 .thumb[data-shape='3'] .thumb__dot { left: 67.4%; top: 51.1%; width: 42.6%; }
 
-/* Search with no matches: a dashed box with suggestions from the learner's picks. */
+/* Search with no matches: a dashed, centered box, with recommendations below it. */
 .search-empty {
-  --gutter: var(--spacing-4);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3);
-  padding: var(--gutter);
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-height: 300px;
+  padding: var(--spacing-4);
   border: 1.5px dashed var(--color-neutral-300);
   border-radius: var(--radius-lg);
+  text-align: center;
+}
+.search-empty__icon {
+  display: grid;
+  place-items: center;
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-500);
 }
 .search-empty__copy {
   display: flex;
@@ -702,7 +714,7 @@
     scroll-snap-align: start;
   }
   .search-empty {
-    --gutter: var(--spacing-3);
+    padding: var(--spacing-3);
     border-radius: var(--radius-md);
   }
 }

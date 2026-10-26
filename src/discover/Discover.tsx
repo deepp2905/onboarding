@@ -63,10 +63,10 @@ const menuItemVariants: Variants = {
 const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.label ?? id;
 
 /** Level-aware wording, so recommendations say who they were picked for. */
-const LEVEL_COPY: Record<LevelId, { picked: string; peers: string; pathStart: string }> = {
-  beginner: { picked: 'beginners', peers: 'beginners', pathStart: 'starting from the basics' },
-  intermediate: { picked: 'intermediate learners', peers: 'learners who know the basics', pathStart: 'building on what you know' },
-  advanced: { picked: 'advanced learners', peers: 'experienced learners', pathStart: 'going deep on the hard stuff' },
+const LEVEL_COPY: Record<LevelId, { picked: string; pathStart: string }> = {
+  beginner: { picked: 'beginners', pathStart: 'starting from the basics' },
+  intermediate: { picked: 'intermediate learners', pathStart: 'building on what you know' },
+  advanced: { picked: 'advanced learners', pathStart: 'going deep on the hard stuff' },
 };
 
 export function Discover({ topic, focus, level, onRestart }: Props) {
@@ -286,17 +286,27 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
           </motion.section>
         ))}
 
-        {/* Suggestions reuse the "Recommended" row: their focus areas first, nearest their level. */}
         {noResults && (
-          <section className="search-empty" aria-live="polite">
-            <div className="search-empty__copy">
-              <h2 className="text-heading-2">Nothing for “{query.trim()}”</h2>
-              <p className="text-body-md search-empty__body">
-                Here are a few lessons in {topic.phrase} popular with {copy.peers}.
-              </p>
+          <>
+            <div className="search-empty" role="status">
+              <span className="search-empty__icon">
+                <SearchIcon />
+              </span>
+              <div className="search-empty__copy">
+                <h2 className="text-heading-2">Nothing found for “{query.trim()}”</h2>
+                <p className="text-body-md search-empty__body">Check the spelling or try a broader word.</p>
+              </div>
             </div>
-            <LessonRow lessons={rows[0].lessons} tones={TONES[0]} />
-          </section>
+            {/* Suggestions reuse the "Recommended" row: their focus areas first, nearest their level. */}
+            <section className="lesson-section">
+              <div className="lesson-section__header">
+                <h2 className="text-heading-2">
+                  Recommended in {topic.phrase} for {copy.picked}
+                </h2>
+              </div>
+              <LessonRow lessons={rows[0].lessons} tones={TONES[0]} />
+            </section>
+          </>
         )}
       </main>
     </motion.div>
