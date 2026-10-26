@@ -98,7 +98,7 @@
 }
 .step__heading {
   color: var(--color-neutral-900);
-  text-wrap: balance;
+  white-space: nowrap; /* useFitLine scales the size down instead of wrapping */
 }
 
 /* Step 1 — topics */

@@ -2,6 +2,7 @@ import { useId } from 'react';
 import { motion } from 'motion/react';
 import { Chip, itemVariants } from '../../ds';
 import type { Topic } from '../data';
+import { useFitLine } from '../useFitLine';
 
 interface Props {
   topic: Topic;
@@ -11,9 +12,10 @@ interface Props {
 
 export function FocusStep({ topic, value, onToggle }: Props) {
   const headingId = useId();
+  const headingRef = useFitLine<HTMLHeadingElement>();
   return (
     <div className="step">
-      <motion.h1 id={headingId} className="step__heading text-heading-1" variants={itemVariants}>
+      <motion.h1 ref={headingRef} id={headingId} className="step__heading text-heading-1" variants={itemVariants}>
         What would you like to focus on?
       </motion.h1>
       <div className="chip-cloud" role="group" aria-labelledby={headingId}>
