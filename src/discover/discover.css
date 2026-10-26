@@ -19,7 +19,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-6);
+  --nav-inset: var(--spacing-6);
+  padding: var(--spacing-3) var(--nav-inset);
   border-bottom: 1px solid var(--color-neutral-200);
   background: var(--color-white);
 }
@@ -708,6 +709,40 @@
   color: var(--color-neutral-600);
 }
 
+/* Desktop: the wordmark and search/profile are pinned to the nav edges, so the tabs can start at the content edge. */
+@media (min-width: 761px) {
+  /* Measure the page width without the scrollbar, and cancel the nav's own side padding. */
+  .discover {
+    container-type: inline-size;
+  }
+  .discover__nav {
+    position: relative;
+  }
+  .discover__nav-start {
+    min-height: var(--spacing-8);
+    padding-inline-start: calc(max(0px, (100cqw - 1200px - 2 * var(--gutter)) / 2) + var(--gutter) - var(--nav-inset));
+  }
+  .discover__nav-start .wordmark--button,
+  .discover__nav-end {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .discover__nav-start .wordmark--button {
+    left: var(--nav-inset);
+  }
+  .discover__nav-end {
+    right: var(--nav-inset);
+  }
+}
+
+/* Below 1600px the wordmark hides, leaving the tabs and search/profile. */
+@media (min-width: 761px) and (max-width: 1599px) {
+  .discover__nav-start .wordmark--button {
+    display: none;
+  }
+}
+
 /* Controls and decorative art aren't text to select. The page nav and mobile menu stay as they are. */
 .featured__art,
 .featured__tag,
@@ -788,6 +823,7 @@
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .discover__nav {
+    --nav-inset: var(--gutter);
     padding-inline: var(--gutter);
   }
   .discover__nav-start {
