@@ -330,7 +330,7 @@
     animation: none;
   }
   .tile:hover .tile__icon,
-  .btn:hover .btn__icon {
+  .btn:hover:not(:disabled) .btn__icon--nudge {
     transform: none;
   }
 }
