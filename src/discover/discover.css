@@ -351,12 +351,14 @@
   line-height: var(--leading-heading-4);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-heading-3);
+  text-wrap: pretty;
 }
 .path-promo__body {
   font-size: var(--text-body-sm);
   line-height: var(--leading-body-sm);
   letter-spacing: var(--tracking-body);
   color: var(--color-neutral-600);
+  text-wrap: balance;
 }
 .path-promo__cta {
   flex-shrink: 0;
