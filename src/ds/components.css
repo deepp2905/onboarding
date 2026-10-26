@@ -32,17 +32,21 @@
   background: var(--color-neutral-900);
   color: var(--color-white);
 }
-.btn--primary:hover:not(:disabled) {
-  background: var(--color-neutral-950);
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover:not(:disabled) {
+    background: var(--color-neutral-950);
+  }
 }
 .btn--secondary {
   background: transparent;
   border-color: var(--color-neutral-300);
   color: var(--color-neutral-900);
 }
-.btn--secondary:hover:not(:disabled) {
-  background: color-mix(in oklab, var(--color-white) 70%, transparent);
-  border-color: transparent;
+@media (hover: hover) and (pointer: fine) {
+  .btn--secondary:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-white) 70%, transparent);
+    border-color: transparent;
+  }
 }
 .btn:disabled {
   cursor: not-allowed;
@@ -63,8 +67,10 @@
   width: 100%;
   height: 100%;
 }
-.btn:hover:not(:disabled) .btn__icon--nudge {
-  transform: translateX(3px);
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover:not(:disabled) .btn__icon--nudge {
+    transform: translateX(3px);
+  }
 }
 
 /* ── Indicator ────────────────────────────────────────────────────────────── */
@@ -124,8 +130,10 @@
   border-radius: var(--radius-md);
   background: var(--color-white);
 }
-.tile:hover[data-selected='false'] {
-  box-shadow: 0 0 0 1px var(--color-lavender-200);
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover[data-selected='false'] {
+    box-shadow: 0 0 0 1px var(--color-lavender-200);
+  }
 }
 .tile[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -144,8 +152,10 @@
   color: var(--color-neutral-700);
   transition: color var(--duration-base) var(--ease-out), transform 150ms var(--ease-out);
 }
-.tile:hover .tile__icon {
-  transform: translateY(-1px) rotate(-4deg);
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .tile__icon {
+    transform: translateY(-1px) rotate(-4deg);
+  }
 }
 .tile[data-selected='true'] .tile__icon {
   color: var(--color-lavender-700);
@@ -172,8 +182,10 @@
   border-radius: var(--radius-full);
   background: var(--color-white);
 }
-.chip:hover[data-selected='false'] {
-  box-shadow: 0 0 0 1px var(--color-lavender-200);
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover[data-selected='false'] {
+    box-shadow: 0 0 0 1px var(--color-lavender-200);
+  }
 }
 .chip[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -200,8 +212,10 @@
   border-radius: var(--radius-lg);
   background: color-mix(in oklab, var(--color-white) 80%, transparent);
 }
-.choice:hover[data-selected='false'] {
-  background: var(--color-white);
+@media (hover: hover) and (pointer: fine) {
+  .choice:hover[data-selected='false'] {
+    background: var(--color-white);
+  }
 }
 .choice[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -294,8 +308,10 @@
   cursor: pointer;
   transition: background-color var(--duration-base) var(--ease-out);
 }
-.info-card__edit:hover {
-  background: var(--color-lavender-300);
+@media (hover: hover) and (pointer: fine) {
+  .info-card__edit:hover {
+    background: var(--color-lavender-300);
+  }
 }
 .info-card__edit:focus-visible {
   outline: 2px solid var(--color-lavender-700);
