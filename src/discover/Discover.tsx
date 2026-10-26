@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
+import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, itemVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 
@@ -42,6 +42,23 @@ const TONES: { bg: string; dot: string }[][] = [
     { bg: GLOW, dot: lavender(200) },
   ],
 ];
+
+/**
+ * Mobile menu: the panel drops in, then its items stagger in with the same
+ * rise as the onboarding step items. Closing fades everything out together.
+ */
+const menuPanelVariants: Variants = {
+  closed: { opacity: 0, y: -8, transition: { duration: 0.16, ease: easeOut } },
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.2, ease: easeOut, delayChildren: 0.04, staggerChildren: 0.035 },
+  },
+};
+const menuItemVariants: Variants = {
+  closed: { opacity: 0, y: 12, scale: 0.985, transition: { duration: 0.16, ease: easeOut } },
+  open: itemVariants.center,
+};
 
 const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.label ?? id;
 
@@ -138,31 +155,39 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                 transition={{ duration: 0.2, ease: easeOut }}
                 onClick={closeMenu}
               />
-              <motion.div
-                id="mobile-menu"
-                className="mobile-menu__panel"
-                variants={{ closed: { opacity: 0, y: -8 }, open: { opacity: 1, y: 0 } }}
-                transition={{ duration: 0.2, ease: easeOut }}
-              >
+              <motion.div id="mobile-menu" className="mobile-menu__panel" variants={menuPanelVariants}>
                 {/* Enter folds the menu away so the filtered rows are in view. */}
-                <SearchField value={query} onChange={setQuery} onSubmit={closeMenu} />
+                <motion.div variants={menuItemVariants}>
+                  <SearchField value={query} onChange={setQuery} onSubmit={closeMenu} />
+                </motion.div>
                 <nav className="mobile-menu__links" aria-label="Primary">
-                  <button type="button" className="discover__link" aria-current="page" onClick={closeMenu}>
+                  <motion.button
+                    type="button"
+                    className="discover__link"
+                    aria-current="page"
+                    variants={menuItemVariants}
+                    onClick={closeMenu}
+                  >
                     Discover
-                  </button>
-                  <button type="button" className="discover__link" onClick={closeMenu}>
+                  </motion.button>
+                  <motion.button type="button" className="discover__link" variants={menuItemVariants} onClick={closeMenu}>
                     My path
-                  </button>
-                  <button type="button" className="discover__link" onClick={closeMenu}>
+                  </motion.button>
+                  <motion.button type="button" className="discover__link" variants={menuItemVariants} onClick={closeMenu}>
                     Saved
-                  </button>
+                  </motion.button>
                 </nav>
-                <button type="button" className="account account--row" onClick={closeMenu}>
+                <motion.button
+                  type="button"
+                  className="account account--row"
+                  variants={menuItemVariants}
+                  onClick={closeMenu}
+                >
                   <span className="avatar" aria-hidden="true">
                     {USER_NAME.charAt(0)}
                   </span>
                   <span className="account__label">My account</span>
-                </button>
+                </motion.button>
               </motion.div>
             </motion.div>
           )}
