@@ -67,9 +67,6 @@
 .btn:hover:not(:disabled) .btn__icon--nudge {
   transform: translateX(3px);
 }
-.btn:hover:not(:disabled) .btn__icon--spin {
-  transform: rotate(-45deg);
-}
 
 /* ── Indicator ────────────────────────────────────────────────────────────── */
 .indicator {
@@ -282,10 +279,11 @@
 
 /* ── InfoCard ─────────────────────────────────────────────────────────────── */
 .info-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-1);
-  padding: var(--spacing-2);
+  padding: var(--spacing-2) 64px var(--spacing-2) var(--spacing-2);
   border-radius: var(--radius-md);
   background: var(--color-lavender-200);
 }
@@ -294,6 +292,30 @@
 }
 .info-card__value {
   color: var(--color-lavender-950);
+}
+.info-card__edit {
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-2);
+  display: grid;
+  place-items: center;
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+  margin-top: calc(var(--spacing-5) / -2);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-lavender-700);
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+.info-card__edit:hover {
+  background: var(--color-lavender-300);
+}
+.info-card__edit:focus-visible {
+  outline: 2px solid var(--color-lavender-700);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

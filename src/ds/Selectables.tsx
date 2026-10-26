@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
+import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
 import { itemVariants, spring } from './motion';
 
@@ -114,18 +115,28 @@ export function ChoiceCard({ glyph, title, description, selected, highlightId, o
   );
 }
 
-/* ── InfoCard — read-only summary row ─────────────────────────────────────── */
+/* ── InfoCard — summary row with an edit shortcut ─────────────────────────── */
 
 export interface InfoCardProps {
   label: string;
   value: string;
+  onEdit: () => void;
 }
 
-export function InfoCard({ label, value }: InfoCardProps) {
+export function InfoCard({ label, value, onEdit }: InfoCardProps) {
   return (
     <motion.div className="info-card" variants={itemVariants}>
       <span className="info-card__label text-label-md">{label}</span>
       <span className="info-card__value text-heading-3">{value}</span>
+      <motion.button
+        type="button"
+        className="info-card__edit"
+        onClick={onEdit}
+        aria-label={`Edit ${label.toLowerCase()}`}
+        whileTap={{ scale: 0.92 }}
+      >
+        <PencilIcon />
+      </motion.button>
     </motion.div>
   );
 }

@@ -121,14 +121,14 @@ export function ArrowRightIcon(props: IconProps) {
   );
 }
 
-export function RestartIcon(props: IconProps) {
+export function PencilIcon(props: IconProps) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path
-        d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"
+        d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

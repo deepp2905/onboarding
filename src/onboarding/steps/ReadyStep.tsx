@@ -6,9 +6,10 @@ interface Props {
   topic: Topic;
   focus: string[];
   level: Level;
+  onEdit: (step: 'topic' | 'focus' | 'level') => void;
 }
 
-export function ReadyStep({ topic, focus, level }: Props) {
+export function ReadyStep({ topic, focus, level, onEdit }: Props) {
   return (
     <div className="step">
       <motion.div className="ready__title" variants={itemVariants}>
@@ -36,9 +37,9 @@ export function ReadyStep({ topic, focus, level }: Props) {
         </motion.span>
       </motion.div>
       <div className="summary">
-        <InfoCard label="Your topic" value={topic.label} />
-        <InfoCard label="Your interests" value={formatInterests(topic, focus)} />
-        <InfoCard label="Your level" value={level.label} />
+        <InfoCard label="Your topic" value={topic.label} onEdit={() => onEdit('topic')} />
+        <InfoCard label="Your interests" value={formatInterests(topic, focus)} onEdit={() => onEdit('focus')} />
+        <InfoCard label="Your level" value={level.label} onEdit={() => onEdit('level')} />
       </div>
     </div>
   );

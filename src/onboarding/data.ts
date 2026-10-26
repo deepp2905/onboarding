@@ -213,14 +213,12 @@ export interface Level {
   label: string;
   description: string;
   bars: LevelValue;
-  /** Used in the closing sentence: "{adjective} marketing lessons" */
-  adjective: string;
 }
 
 export const LEVELS: Level[] = [
-  { id: 'beginner', label: 'Beginner', description: "I'm new to this", bars: 1, adjective: 'beginner-friendly' },
-  { id: 'intermediate', label: 'Intermediate', description: 'I know the basics', bars: 2, adjective: 'intermediate' },
-  { id: 'advanced', label: 'Advanced', description: 'Jump to the hard stuff', bars: 3, adjective: 'advanced' },
+  { id: 'beginner', label: 'Beginner', description: "I'm new to this", bars: 1 },
+  { id: 'intermediate', label: 'Intermediate', description: 'I know the basics', bars: 2 },
+  { id: 'advanced', label: 'Advanced', description: 'Jump to the hard stuff', bars: 3 },
 ];
 
 export const getTopic = (id: string | null) => TOPICS.find((t) => t.id === id) ?? null;

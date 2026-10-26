@@ -1,19 +1,15 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRightIcon, Button, RestartIcon, spring, stepVariants } from '../ds';
+import { ArrowRightIcon, Button, spring, stepVariants } from '../ds';
 import { getLevel, getTopic, type LevelId, type Topic } from './data';
 import { StepCounter } from './StepCounter';
-import { DoneStep } from './steps/DoneStep';
 import { FocusStep } from './steps/FocusStep';
 import { LevelStep } from './steps/LevelStep';
 import { ReadyStep } from './steps/ReadyStep';
 import { TopicStep } from './steps/TopicStep';
 
-const STEPS = ['topic', 'focus', 'level', 'ready', 'done'] as const;
+const STEPS = ['topic', 'focus', 'level', 'ready'] as const;
 type StepId = (typeof STEPS)[number];
-
-/** Steps that show a "Step n of 3" counter. */
-const NUMBERED: StepId[] = ['topic', 'focus', 'level'];
 
 /**
  * One persistent shell (header, background, action row) with the step content
@@ -35,8 +31,7 @@ export function OnboardingFlow() {
     (step === 'topic' && topic !== null) ||
     (step === 'focus' && focus.length > 0) ||
     (step === 'level' && level !== null) ||
-    step === 'ready' ||
-    step === 'done';
+    step === 'ready';
 
   const go = (next: number) => {
     setDirection(next > index ? 1 : -1);
@@ -45,7 +40,8 @@ export function OnboardingFlow() {
 
   const handleContinue = () => {
     if (!canContinue) return;
-    if (step === 'done') {
+    if (step === 'ready') {
+      // Nothing follows onboarding in this demo, so "Get started" starts it over.
       setTopicId(null);
       setFocus([]);
       setLevelId(null);
@@ -67,11 +63,19 @@ export function OnboardingFlow() {
   if (step === 'topic') content = <TopicStep value={topicId} onChange={handleTopic} />;
   if (step === 'focus' && topic) content = <FocusStep topic={topic} value={focus} onToggle={toggleFocus} />;
   if (step === 'level' && topic) content = <LevelStep topic={topic} value={levelId} onChange={setLevelId} />;
-  if (step === 'ready' && topic && level) content = <ReadyStep topic={topic} focus={focus} level={level} />;
-  if (step === 'done' && topic && level) content = <DoneStep topic={topic} focus={focus} level={level} />;
+  if (step === 'ready' && topic && level)
+    content = (
+      <ReadyStep
+        topic={topic}
+        focus={focus}
+        level={level}
+        onEdit={(id: StepId) => go(STEPS.indexOf(id))}
+      />
+    );
 
   const showBack = step === 'focus' || step === 'level';
-  const counterLabel = NUMBERED.includes(step) ? `Step ${index + 1} of 3` : 'All set';
+  // The summary belongs to the last question, so it keeps the "Step 3 of 3" counter.
+  const counterLabel = `Step ${Math.min(index + 1, 3)} of 3`;
 
   return (
     <div className="onboarding" data-step={step}>
@@ -126,28 +130,17 @@ export function OnboardingFlow() {
               <Button variant="primary" onClick={handleContinue} disabled={!canContinue}>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
-                    key={step === 'done' ? 'restart' : 'continue'}
+                    key={step === 'ready' ? 'start' : 'continue'}
                     className="btn__label"
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.16 }}
                   >
-                    {step === 'done' ? (
-                      <>
-                        <span className="btn__icon btn__icon--spin">
-                          <RestartIcon />
-                        </span>
-                        Start over
-                      </>
-                    ) : (
-                      <>
-                        Continue
-                        <span className="btn__icon btn__icon--nudge">
-                          <ArrowRightIcon />
-                        </span>
-                      </>
-                    )}
+                    {step === 'ready' ? 'Get started' : 'Continue'}
+                    <span className="btn__icon btn__icon--nudge">
+                      <ArrowRightIcon />
+                    </span>
                   </motion.span>
                 </AnimatePresence>
               </Button>
