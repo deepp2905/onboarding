@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
 import { itemVariants, spring } from './motion';
@@ -19,6 +19,9 @@ export interface OptionTileProps {
 }
 
 export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps) {
+  // Keep the one-shot float alive after hover ends; ignore re-entry mid-cycle.
+  const [floating, setFloating] = useState(false);
+
   return (
     <motion.button
       type="button"
@@ -27,12 +30,23 @@ export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps)
       className="tile"
       data-selected={selected}
       onClick={onSelect}
+      onHoverStart={() => {
+        if (window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+          setFloating(true);
+        }
+      }}
       variants={itemVariants}
       whileTap={{ scale: 0.97 }}
       transition={spring.snappy}
     >
       <span className="tile__top">
-        <span className="tile__icon">{icon}</span>
+        <span
+          className="tile__icon"
+          data-floating={floating}
+          onAnimationEnd={() => setFloating(false)}
+        >
+          {icon}
+        </span>
         <Indicator type="radio" checked={selected} />
       </span>
       <span className="tile__label">{label}</span>

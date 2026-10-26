@@ -108,10 +108,23 @@
   text-align: left;
   font: inherit;
   color: inherit;
+  background: color-mix(in oklab, var(--color-white) 80%, transparent);
   transition:
-    background-color var(--duration-base) var(--ease-out),
+    background-color 150ms var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out),
     color var(--duration-base) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover[data-selected='false'],
+  .chip:hover[data-selected='false'],
+  .choice:hover[data-selected='false'] {
+    background: var(--color-white);
+  }
+}
+.tile[data-selected='true'],
+.chip[data-selected='true'],
+.choice[data-selected='true'] {
+  transition-duration: var(--duration-base);
 }
 .tile:focus-visible,
 .chip:focus-visible,
@@ -128,12 +141,6 @@
   height: var(--spacing-12);
   padding: var(--spacing-2);
   border-radius: var(--radius-md);
-  background: var(--color-white);
-}
-@media (hover: hover) and (pointer: fine) {
-  .tile:hover[data-selected='false'] {
-    box-shadow: 0 0 0 1px var(--color-lavender-200);
-  }
 }
 .tile[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -150,11 +157,17 @@
   height: 40px;
   margin: -2px 0 0 -2px;
   color: var(--color-neutral-700);
-  transition: color var(--duration-base) var(--ease-out), transform 150ms var(--ease-out);
+  transition: color var(--duration-base) var(--ease-out);
 }
-@media (hover: hover) and (pointer: fine) {
-  .tile:hover .tile__icon {
-    transform: translateY(-1px) rotate(-4deg);
+.tile__icon[data-floating='true'] {
+  animation: icon-float 450ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+@keyframes icon-float {
+  50% {
+    transform: translateY(-3px);
+  }
+  0%, 100% {
+    transform: translateY(0);
   }
 }
 .tile[data-selected='true'] .tile__icon {
@@ -180,12 +193,6 @@
   height: var(--spacing-8);
   padding: 0 var(--spacing-2) 0 var(--spacing-3);
   border-radius: var(--radius-full);
-  background: var(--color-white);
-}
-@media (hover: hover) and (pointer: fine) {
-  .chip:hover[data-selected='false'] {
-    box-shadow: 0 0 0 1px var(--color-lavender-200);
-  }
 }
 .chip[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -210,12 +217,6 @@
   gap: var(--spacing-3);
   padding: var(--spacing-3);
   border-radius: var(--radius-lg);
-  background: color-mix(in oklab, var(--color-white) 80%, transparent);
-}
-@media (hover: hover) and (pointer: fine) {
-  .choice:hover[data-selected='false'] {
-    background: var(--color-white);
-  }
 }
 .choice[data-selected='true'] {
   background: var(--color-lavender-200);
@@ -267,7 +268,9 @@
 }
 .choice[data-selected='true'] .level-bars__bar[data-filled='true'] {
   fill: var(--color-lavender-800);
-  animation: bar-rise 300ms var(--ease-out) both;
+}
+.choice[data-selected='true'] .level-bars__bar {
+  animation: bar-rise 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 @keyframes bar-rise {
   0% { transform: scaleY(0.2); }
@@ -326,10 +329,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .choice[data-selected='true'] .level-bars__bar[data-filled='true'] {
+  .tile__icon[data-floating='true'],
+  .choice[data-selected='true'] .level-bars__bar {
     animation: none;
   }
-  .tile:hover .tile__icon,
   .btn:hover:not(:disabled) .btn__icon--nudge {
     transform: none;
   }

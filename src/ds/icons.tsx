@@ -162,7 +162,7 @@ export function LevelBarsIcon({ level, ...props }: IconProps & { level: LevelVal
           rx="1.5"
           className="level-bars__bar"
           data-filled={i < level}
-          style={{ animationDelay: `${i * 40}ms` }}
+          style={{ animationDelay: `${i * 60}ms` }}
         />
       ))}
     </svg>
