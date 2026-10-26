@@ -16,8 +16,8 @@ export function ReadyStep({ topic, focus, level, onEdit }: Props) {
         <h1 className="text-heading-1">{USER_NAME}, your experience is ready</h1>
         <motion.span
           className="ready__badge"
-          initial={{ scale: 0, rotate: -40 }}
-          animate={{ scale: 1, rotate: 0 }}
+          initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
+          animate={{ scale: 1, opacity: 1, rotate: 0 }}
           transition={{ ...spring.pop, delay: 0.28 }}
           aria-hidden="true"
         >
