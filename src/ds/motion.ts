@@ -51,7 +51,7 @@ export const pageVariants: Variants = {
   hidden: { opacity: 0 },
   shown: {
     opacity: 1,
-    transition: { duration: 0.32, ease: easeOut, delayChildren: 0.06, staggerChildren: 0.07 },
+    transition: { duration: 0.32, ease: easeOut },
   },
   gone: {
     opacity: 0,
@@ -61,8 +61,30 @@ export const pageVariants: Variants = {
   },
 };
 
-/** Sections of a page — rise in under pageVariants' stagger. */
+/**
+ * A page whose sections carry the entrance themselves. The container stays
+ * opaque on the way in (one entrance per element) and only staggers its children.
+ */
+export const staggerPageVariants: Variants = {
+  hidden: {},
+  shown: { transition: { delayChildren: 0.06, staggerChildren: 0.07 } },
+  gone: pageVariants.gone,
+};
+
+/** Persistent chrome (nav) — fades in place, no travel. */
+export const fadeVariants: Variants = {
+  hidden: { opacity: 0 },
+  shown: { opacity: 1, transition: { duration: 0.24, ease: easeOut } },
+};
+
+/** The most important section of a page — rises the furthest. */
 export const riseVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
+  shown: { opacity: 1, y: 0, transition: spring.soft },
+};
+
+/** Secondary sections — a shorter rise so they read as following the hero. */
+export const settleVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
   shown: { opacity: 1, y: 0, transition: spring.soft },
 };

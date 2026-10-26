@@ -4,5 +4,5 @@ export { Indicator } from './Indicator';
 export { OptionTile, Chip, ChoiceCard, InfoCard } from './Selectables';
 export { TopicIcon, ArrowRightIcon, PencilIcon, LevelBarsIcon, SearchIcon, ChevronRightIcon, PlayIcon } from './icons';
 export type { TopicIconName, LevelValue } from './icons';
-export { spring, easeOut, stepVariants, pageVariants, riseVariants } from './motion';
+export { spring, easeOut, stepVariants, pageVariants, staggerPageVariants, fadeVariants, riseVariants, settleVariants } from './motion';
 export { cx } from './cx';

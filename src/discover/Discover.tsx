@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { useMemo, useState, type CSSProperties } from 'react';
-import { ChevronRightIcon, PlayIcon, SearchIcon, pageVariants, riseVariants, spring } from '../ds';
+import { ChevronRightIcon, PlayIcon, SearchIcon, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 
@@ -60,8 +60,8 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
     .filter((row) => row.lessons.length > 0);
 
   return (
-    <motion.div className="discover" variants={pageVariants} initial="hidden" animate="shown" exit="gone">
-      <motion.header className="discover__nav" variants={riseVariants}>
+    <motion.div className="discover" variants={staggerPageVariants} initial="hidden" animate="shown" exit="gone">
+      <motion.header className="discover__nav" variants={fadeVariants}>
         <div className="discover__nav-start">
           <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
             LearnVector
@@ -123,7 +123,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
         </motion.section>
 
         {visibleRows.map((row) => (
-          <motion.section key={row.id} className="lesson-section" variants={riseVariants}>
+          <motion.section key={row.id} className="lesson-section" variants={settleVariants}>
             <div className="lesson-section__header">
               <h2 className="text-heading-2">{row.title}</h2>
               <button type="button" className="see-all">
