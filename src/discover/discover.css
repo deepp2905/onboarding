@@ -17,19 +17,16 @@
 .discover__nav {
   display: flex;
   align-items: center;
-  gap: var(--spacing-12);
-  padding: var(--spacing-3) var(--spacing-6);
-  border-bottom: 1px solid var(--color-neutral-200);
-}
-/* Inline on desktop; becomes the collapsible panel on mobile. */
-.discover__menu,
-.discover__menu-inner {
-  display: flex;
-  flex: 1;
-  align-items: center;
   justify-content: space-between;
   gap: var(--spacing-3);
-  min-width: 0;
+  padding: var(--spacing-3) var(--spacing-6);
+  border-bottom: 1px solid var(--color-neutral-200);
+  background: var(--color-white);
+}
+.discover__nav-start {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
 }
 .discover__nav-end {
   display: flex;
@@ -191,6 +188,11 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Mobile overlay menu: its own markup, only rendered while open (see Discover.tsx). */
+.mobile-menu {
+  display: none;
 }
 
 .avatar {
@@ -530,8 +532,10 @@
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .discover__nav {
-    gap: var(--spacing-6);
     padding-inline: var(--gutter);
+  }
+  .discover__nav-start {
+    gap: var(--spacing-6);
   }
   .search {
     width: 240px;
@@ -562,75 +566,76 @@
   .discover {
     --gutter: clamp(12px, 6.25vw, 120px);
   }
-  /* Nav collapses to wordmark + toggle; the menu opens below as a full-width panel. */
+  /* Nav slims to wordmark + toggle and stays pinned to the top; the menu drops
+     down over the content from its bottom edge. */
   .discover__nav {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
     padding-block: var(--spacing-1);
+  }
+  .discover__links,
+  .discover__nav-end {
+    display: none;
   }
   .menu-toggle {
     display: block;
   }
-  .discover__menu {
-    display: grid;
-    flex-basis: 100%;
-    grid-template-rows: 0fr;
-    visibility: hidden; /* keeps the closed menu out of the tab order */
-    transition:
-      grid-template-rows var(--duration-base) var(--ease-out),
-      visibility 0s linear var(--duration-base);
+  .mobile-menu {
+    display: block;
+    position: absolute;
+    top: calc(100% + 1px); /* below the nav's border */
+    left: 0;
+    right: 0;
   }
-  .discover__menu[data-open='true'] {
-    grid-template-rows: 1fr;
-    visibility: visible;
-    transition-delay: 0s;
+  .mobile-menu__scrim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100dvh;
+    background: color-mix(in oklab, var(--color-neutral-950) 32%, transparent);
   }
-  .discover__menu-inner {
+  .mobile-menu__panel {
+    position: relative;
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
     gap: var(--spacing-1);
-    min-height: 0;
-    overflow: hidden;
-    /* Room for focus rings, which overflow: hidden would otherwise clip. */
-    margin-inline: -6px;
-    padding-inline: 6px;
+    max-height: calc(100dvh - 64px); /* viewport minus the slim nav */
+    overflow-y: auto;
+    padding: var(--spacing-2) var(--gutter);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: 0 16px 32px -16px color-mix(in oklab, var(--color-neutral-950) 24%, transparent);
   }
-  /* Flatten so search, links and account can be ordered as one list. */
-  .discover__nav-end {
-    display: contents;
-  }
-  .search {
-    order: -1;
+  .mobile-menu__panel .search {
     width: auto;
     height: var(--spacing-6);
-    margin-top: var(--spacing-1);
   }
-  .discover__links {
+  .mobile-menu__links {
+    display: flex;
     flex-direction: column;
-    gap: 0;
   }
-  .discover__link {
+  .mobile-menu__links .discover__link {
     height: var(--spacing-6);
     text-align: left;
   }
-  .account {
-    margin-bottom: var(--spacing-2);
+  .account--row {
     padding-top: var(--spacing-1);
     border-top: 1px solid var(--color-neutral-200);
     border-radius: 0;
   }
-  .account:focus-visible {
+  .account--row:focus-visible {
     border-radius: var(--radius-sm);
   }
-  .account__label {
+  .account--row .account__label {
     position: static;
     width: auto;
     height: auto;
     overflow: visible;
     clip-path: none;
   }
-  .avatar {
+  .account--row .avatar {
     width: var(--spacing-5);
     height: var(--spacing-5);
   }
@@ -712,7 +717,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .discover__menu,
   .menu-toggle__bar,
   .featured__dot,
   .thumb__dot,

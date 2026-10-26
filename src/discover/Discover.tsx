@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
+import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 
@@ -55,7 +55,8 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Escape closes the mobile menu and hands focus back to its toggle.
+  // While the overlay is open: Escape closes it and hands focus back to the toggle,
+  // widening past the mobile breakpoint closes it, and the page behind can't scroll.
   useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -63,8 +64,17 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
       setMenuOpen(false);
       menuToggleRef.current?.focus();
     };
+    const desktop = window.matchMedia('(min-width: 761px)');
+    const onBreakpoint = () => desktop.matches && setMenuOpen(false);
+    const root = document.documentElement;
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onBreakpoint);
+    root.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onBreakpoint);
+      root.style.overflow = '';
+    };
   }, [menuOpen]);
 
   const needle = query.trim().toLowerCase();
@@ -79,59 +89,84 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
   return (
     <motion.div className="discover" variants={staggerPageVariants} initial="hidden" animate="shown" exit="gone">
       <motion.header className="discover__nav" variants={fadeVariants}>
-        <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
-          LearnVector
-        </button>
-        {/* Below 760px the links, search and account collapse behind this toggle. */}
+        <div className="discover__nav-start">
+          <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
+            LearnVector
+          </button>
+          <nav className="discover__links" aria-label="Primary">
+            <button type="button" className="discover__link" aria-current="page">
+              Discover
+            </button>
+            <button type="button" className="discover__link">
+              My path
+            </button>
+            <button type="button" className="discover__link">
+              Saved
+            </button>
+          </nav>
+        </div>
+        <div className="discover__nav-end">
+          <SearchField value={query} onChange={setQuery} />
+          <button type="button" className="account">
+            <span className="avatar" aria-hidden="true">
+              {USER_NAME.charAt(0)}
+            </span>
+            <span className="account__label">My account</span>
+          </button>
+        </div>
+
+        {/* Below 760px the links, search and account move into the overlay menu. */}
         <button
           ref={menuToggleRef}
           type="button"
           className="menu-toggle"
           aria-label="Menu"
           aria-expanded={menuOpen}
-          aria-controls="discover-menu"
+          aria-controls={menuOpen ? 'mobile-menu' : undefined}
           onClick={() => setMenuOpen((open) => !open)}
         >
           <span className="menu-toggle__bar" />
           <span className="menu-toggle__bar" />
           <span className="menu-toggle__bar" />
         </button>
-        <div id="discover-menu" className="discover__menu" data-open={menuOpen}>
-          <div className="discover__menu-inner">
-            <nav className="discover__links" aria-label="Primary">
-              <button type="button" className="discover__link" aria-current="page" onClick={closeMenu}>
-                Discover
-              </button>
-              <button type="button" className="discover__link" onClick={closeMenu}>
-                My path
-              </button>
-              <button type="button" className="discover__link" onClick={closeMenu}>
-                Saved
-              </button>
-            </nav>
-            <div className="discover__nav-end">
-              <label className="search">
-                <SearchIcon className="search__icon" />
-                <input
-                  type="search"
-                  className="search__input"
-                  placeholder="Search lessons"
-                  enterKeyHint="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  // On mobile, Enter folds the menu away so the filtered rows are in view.
-                  onKeyDown={(e) => e.key === 'Enter' && closeMenu()}
-                />
-              </label>
-              <button type="button" className="account" onClick={closeMenu}>
-                <span className="avatar" aria-hidden="true">
-                  {USER_NAME.charAt(0)}
-                </span>
-                <span className="account__label">My account</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div key="mobile-menu" className="mobile-menu" initial="closed" animate="open" exit="closed">
+              <motion.div
+                className="mobile-menu__scrim"
+                variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
+                transition={{ duration: 0.2, ease: easeOut }}
+                onClick={closeMenu}
+              />
+              <motion.div
+                id="mobile-menu"
+                className="mobile-menu__panel"
+                variants={{ closed: { opacity: 0, y: -8 }, open: { opacity: 1, y: 0 } }}
+                transition={{ duration: 0.2, ease: easeOut }}
+              >
+                {/* Enter folds the menu away so the filtered rows are in view. */}
+                <SearchField value={query} onChange={setQuery} onSubmit={closeMenu} />
+                <nav className="mobile-menu__links" aria-label="Primary">
+                  <button type="button" className="discover__link" aria-current="page" onClick={closeMenu}>
+                    Discover
+                  </button>
+                  <button type="button" className="discover__link" onClick={closeMenu}>
+                    My path
+                  </button>
+                  <button type="button" className="discover__link" onClick={closeMenu}>
+                    Saved
+                  </button>
+                </nav>
+                <button type="button" className="account account--row" onClick={closeMenu}>
+                  <span className="avatar" aria-hidden="true">
+                    {USER_NAME.charAt(0)}
+                  </span>
+                  <span className="account__label">My account</span>
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       <main className="discover__content">
@@ -229,6 +264,23 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
         )}
       </main>
     </motion.div>
+  );
+}
+
+function SearchField({ value, onChange, onSubmit }: { value: string; onChange: (value: string) => void; onSubmit?: () => void }) {
+  return (
+    <label className="search">
+      <SearchIcon className="search__icon" />
+      <input
+        type="search"
+        className="search__input"
+        placeholder="Search lessons"
+        enterKeyHint="search"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && onSubmit?.()}
+      />
+    </label>
   );
 }
 
