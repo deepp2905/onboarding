@@ -212,6 +212,27 @@
     grid-template-columns: 1fr;
     width: 100%;
   }
+  /* Full-width cards: glyph beside the text, radio at the end, so the row
+     isn't a tall card with an empty right half. */
+  .level-row .choice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--spacing-2);
+    padding: var(--spacing-2) 20px;
+  }
+  .level-row .choice__top {
+    display: contents;
+  }
+  .level-row .choice__text {
+    grid-row: 1;
+    grid-column: 2;
+    gap: 2px;
+  }
+  .level-row .indicator {
+    grid-row: 1;
+    grid-column: 3;
+  }
   .step--center .step__heading {
     text-align: left;
     align-self: stretch;
