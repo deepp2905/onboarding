@@ -65,10 +65,10 @@ const menuItemVariants: Variants = {
 const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.label ?? id;
 
 /** Level-aware wording, so recommendations say who they were picked for. */
-const LEVEL_COPY: Record<LevelId, { picked: string; pathStart: string }> = {
-  beginner: { picked: 'beginners', pathStart: 'starting from the basics' },
-  intermediate: { picked: 'intermediate learners', pathStart: 'building on what you know' },
-  advanced: { picked: 'advanced learners', pathStart: 'going deep on the hard stuff' },
+const LEVEL_COPY: Record<LevelId, { greeting: string; picked: string; pathStart: string }> = {
+  beginner: { greeting: 'here’s where to start with', picked: 'beginners', pathStart: 'starting from the basics' },
+  intermediate: { greeting: 'here’s what’s next in', picked: 'intermediate learners', pathStart: 'building on what you know' },
+  advanced: { greeting: 'let’s go deeper into', picked: 'advanced learners', pathStart: 'going deep on the hard stuff' },
 };
 
 export function Discover({ topic, focus, level, onRestart }: Props) {
@@ -238,7 +238,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
           <section className="discover__hero">
             <motion.div className="discover__intro" variants={riseVariants}>
               <h1 className="discover__greeting">
-                {USER_NAME}, here’s where to start with {topic.phrase}.
+                {USER_NAME}, {copy.greeting} {topic.phrase}.
               </h1>
               <div className="featured">
                 <div className="featured__art" aria-hidden="true">

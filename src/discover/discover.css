@@ -238,11 +238,14 @@
 /* Featured lesson */
 .featured {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-6);
   padding: var(--spacing-1);
+  border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-xl);
-  background: var(--color-lavender-50);
+  background: var(--color-white);
 }
 .featured__art {
   position: relative;
@@ -276,7 +279,7 @@
   align-items: flex-start;
   gap: var(--spacing-3);
   max-width: 440px;
-  padding-block: var(--spacing-3);
+  padding: var(--spacing-3);
 }
 .featured__tag {
   display: inline-flex;
