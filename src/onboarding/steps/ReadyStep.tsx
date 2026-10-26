@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { InfoCard, easeOut, itemVariants, spring } from '../../ds';
-import { USER_NAME, formatInterests, type Level, type Topic } from '../data';
+import { formatInterests, type Level, type Topic } from '../data';
 
 interface Props {
   topic: Topic;
@@ -13,7 +13,7 @@ export function ReadyStep({ topic, focus, level, onEdit }: Props) {
   return (
     <div className="step">
       <motion.div className="ready__title" variants={itemVariants}>
-        <h1 className="text-heading-1">{USER_NAME}, we’ve got you covered</h1>
+        <h1 className="text-heading-1">We’ve got you covered</h1>
         <motion.span
           className="ready__badge"
           initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
