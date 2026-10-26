@@ -2,24 +2,12 @@ import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { PencilIcon } from './icons';
 import { Indicator } from './Indicator';
-import { itemVariants, spring } from './motion';
+import { itemVariants } from './motion';
 
 /* ────────────────────────────────────────────────────────────────────────────
- * Selection surfaces used by the onboarding flow.
- *
- * Single-choice surfaces (OptionTile, ChoiceCard) take a `highlightId`. The
- * selected one renders a background with that layoutId, so when the choice
- * changes the highlight glides from the old option to the new one.
+ * Selection surfaces used by the onboarding flow. Selection is shown by a
+ * background colour fade in CSS, keyed off `data-selected`.
  * ──────────────────────────────────────────────────────────────────────────── */
-
-interface HighlightProps {
-  layoutId: string;
-  className: string;
-}
-
-function Highlight({ layoutId, className }: HighlightProps) {
-  return <motion.span layoutId={layoutId} className={className} transition={spring.glide} aria-hidden="true" />;
-}
 
 /* ── OptionTile — 96px topic tile with icon + radio ───────────────────────── */
 
@@ -27,11 +15,10 @@ export interface OptionTileProps {
   icon: ReactNode;
   label: string;
   selected: boolean;
-  highlightId: string;
   onSelect: () => void;
 }
 
-export function OptionTile({ icon, label, selected, highlightId, onSelect }: OptionTileProps) {
+export function OptionTile({ icon, label, selected, onSelect }: OptionTileProps) {
   return (
     <motion.button
       type="button"
@@ -43,7 +30,6 @@ export function OptionTile({ icon, label, selected, highlightId, onSelect }: Opt
       variants={itemVariants}
       whileTap={{ scale: 0.97 }}
     >
-      {selected && <Highlight layoutId={highlightId} className="tile__highlight" />}
       <span className="tile__top">
         <span className="tile__icon">{icon}</span>
         <Indicator type="radio" checked={selected} />
@@ -86,11 +72,10 @@ export interface ChoiceCardProps {
   title: string;
   description: string;
   selected: boolean;
-  highlightId: string;
   onSelect: () => void;
 }
 
-export function ChoiceCard({ glyph, title, description, selected, highlightId, onSelect }: ChoiceCardProps) {
+export function ChoiceCard({ glyph, title, description, selected, onSelect }: ChoiceCardProps) {
   return (
     <motion.button
       type="button"
@@ -102,10 +87,9 @@ export function ChoiceCard({ glyph, title, description, selected, highlightId, o
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
     >
-      {selected && <Highlight layoutId={highlightId} className="choice__highlight" />}
       <span className="choice__top">
         {glyph}
-        <Indicator type="check" checked={selected} />
+        <Indicator type="radio" checked={selected} />
       </span>
       <span className="choice__text">
         <span className="choice__title text-heading-2">{title}</span>

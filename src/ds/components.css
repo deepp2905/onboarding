@@ -34,7 +34,6 @@
 }
 .btn--primary:hover:not(:disabled) {
   background: var(--color-neutral-950);
-  box-shadow: 0 8px 24px -12px rgb(29 29 35 / 0.55);
 }
 .btn--secondary {
   background: transparent;
@@ -43,7 +42,7 @@
 }
 .btn--secondary:hover:not(:disabled) {
   background: color-mix(in oklab, var(--color-white) 70%, transparent);
-  border-color: var(--color-neutral-400);
+  border-color: transparent;
 }
 .btn:disabled {
   cursor: not-allowed;
@@ -100,12 +99,10 @@
   100% { transform: scale(1); }
 }
 
-/* Shared hover lift for selectable surfaces */
+/* Shared base for selectable surfaces */
 .tile,
 .chip,
 .choice {
-  position: relative;
-  isolation: isolate;
   border: 0;
   cursor: pointer;
   text-align: left;
@@ -122,10 +119,6 @@
   outline: none;
   box-shadow: var(--focus-ring);
 }
-.tile[data-selected='true'],
-.choice[data-selected='true'] {
-  z-index: 1; /* keep the travelling highlight above neighbours */
-}
 
 /* ── OptionTile ───────────────────────────────────────────────────────────── */
 .tile {
@@ -138,14 +131,9 @@
   background: var(--color-white);
 }
 .tile:hover[data-selected='false'] {
-  box-shadow: 0 0 0 1px var(--color-lavender-200), 0 10px 24px -16px rgb(100 61 182 / 0.45);
+  box-shadow: 0 0 0 1px var(--color-lavender-200);
 }
-.tile__highlight,
-.choice__highlight {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
+.tile[data-selected='true'] {
   background: var(--color-lavender-200);
 }
 .tile__top {
@@ -220,7 +208,9 @@
 }
 .choice:hover[data-selected='false'] {
   background: var(--color-white);
-  box-shadow: 0 12px 28px -18px rgb(100 61 182 / 0.5);
+}
+.choice[data-selected='true'] {
+  background: var(--color-lavender-200);
 }
 .choice__top {
   display: flex;

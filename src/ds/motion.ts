@@ -7,8 +7,6 @@ export const easeOut = [0.22, 1, 0.36, 1] as const;
 export const spring = {
   /** Page-level movement: step transitions, panel height */
   soft: { type: 'spring', stiffness: 260, damping: 32, mass: 1 },
-  /** Shared-layout highlights gliding between options */
-  glide: { type: 'spring', stiffness: 420, damping: 38 },
   /** Press feedback */
   snappy: { type: 'spring', stiffness: 640, damping: 36 },
   /** Small confirmations (radio dot, success badge) — the one place we allow overshoot */
