@@ -29,10 +29,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Page scrollbar: lavender thumb on a transparent track, so it sits on the page instead of a grey gutter. */
+/* Page scrollbar: neutral thumb on a transparent track, so it sits on the page instead of a grey gutter. */
 html {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-lavender-300) transparent;
+  scrollbar-color: var(--color-neutral-300) transparent;
 }
 /* Older WebKit/Blink that predate scrollbar-color */
 html::-webkit-scrollbar {
@@ -45,10 +45,10 @@ html::-webkit-scrollbar-track {
 html::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--radius-full);
-  background: var(--color-lavender-300) padding-box;
+  background: var(--color-neutral-300) padding-box;
 }
 html::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-lavender-400);
+  background-color: var(--color-neutral-400);
 }
 
 h1,
