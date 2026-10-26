@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRightIcon, Button, easeOut, pageVariants, spring, stepVariants } from '../ds';
 import type { Preferences } from '../discover/Discover';
@@ -164,6 +164,8 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
 function AutoHeight({ children }: { children: ReactNode }) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | 'auto'>('auto');
+  // Height is movement, which MotionConfig's reducedMotion doesn't cover — snap it instead.
+  const reduceMotion = useReducedMotion();
 
   useLayoutEffect(() => {
     const el = innerRef.current;
@@ -178,7 +180,12 @@ function AutoHeight({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <motion.div className="auto-height" initial={false} animate={{ height }} transition={spring.soft}>
+    <motion.div
+      className="auto-height"
+      initial={false}
+      animate={{ height }}
+      transition={reduceMotion ? { duration: 0 } : spring.soft}
+    >
       <div ref={innerRef} className="auto-height__inner">
         {children}
       </div>
