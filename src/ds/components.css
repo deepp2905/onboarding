@@ -142,7 +142,7 @@
   height: 40px;
   margin: -2px 0 0 -2px;
   color: var(--color-neutral-700);
-  transition: color var(--duration-base) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transition: color var(--duration-base) var(--ease-out), transform 150ms var(--ease-out);
 }
 .tile:hover .tile__icon {
   transform: translateY(-1px) rotate(-4deg);

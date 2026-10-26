@@ -171,7 +171,7 @@
   position: absolute;
   aspect-ratio: 1;
   border-radius: var(--radius-full);
-  transition: translate var(--duration-slow) var(--ease-out);
+  transition: translate var(--duration-base) var(--ease-out);
 }
 .featured__dot--back {
   left: 66.1%;
@@ -313,7 +313,7 @@
   aspect-ratio: 1;
   border-radius: var(--radius-full);
   background: var(--thumb-dot);
-  transition: translate var(--duration-slow) var(--ease-out);
+  transition: translate var(--duration-base) var(--ease-out);
 }
 .thumb[data-shape='0'] .thumb__dot { left: 53.2%; top: 22.7%; width: 56.7%; }
 .thumb[data-shape='1'] .thumb__dot { left: -14.2%; top: 39.8%; width: 63.8%; }
