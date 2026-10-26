@@ -556,6 +556,10 @@
 }
 
 @media (max-width: 760px) {
+  /* Tighter side gutter on phones: 75% of the desktop curve. */
+  .discover {
+    --gutter: clamp(12px, 6.25vw, 120px);
+  }
   /* Nav collapses to wordmark + toggle; the menu opens below as a full-width panel. */
   .discover__nav {
     flex-wrap: wrap;
