@@ -1,6 +1,6 @@
 # LearnVector · A discovery page that gets to know you
 
-**Prototype:** [onboarding.deeepatel.com](https://onboarding.deeepatel.com) · **Code:** [github.com/deepp2905/onboarding](https://github.com/deepp2905/onboarding)
+**Prototype:** [onboarding.deeepatel.com](https://onboarding.deeepatel.com)
 
 Three quick questions, then straight into a Discover page shaped by the answers, which keeps learning from what you do on it. The goal: every screen after sign-in should feel like it already knows a little about you, without making you work for it.
 
@@ -59,10 +59,6 @@ Copy rules: second person, short sentences, the learner's own words reflected ba
 - **Motion that explains.** The selection highlight slides between options, checkmarks draw themselves, level bars rise one after another when you pick a level, and Back grows in to share the row with Continue.
 - **Refined, pass by pass.** One shared press feel (0.97 scale, same spring) everywhere. Indicators grow from half scale instead of zero, so they feel less theatrical. Hover is a quiet fill to white instead of an outline, and a topic's icon does one gentle float rather than tilting, limited to mouse and trackpad so taps never stick. Discover enters in one ranked order instead of all at once. Popovers scale from the corner they're anchored to. Ambient orbs are softened with their gradients instead of a heavy blur, to protect frame rate.
 - **Respectful.** With `prefers-reduced-motion`, movement becomes fades and the panel height snaps.
-
-## Phone and desktop
-
-On a phone, the Continue row is pinned within thumb reach, level cards stack as rows, lesson menus flip above the card when there's no room below, and the nav collapses into an overlay menu whose items stagger in like the onboarding options. On desktop, content gets room at a comfortable reading width.
 
 ## How I used AI tools
 
