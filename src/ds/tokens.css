@@ -1,0 +1,160 @@
+/*
+ * LearnVector design tokens
+ * Source: Paper file "LearnVector"
+ *   AH-0  Product Color Primitives
+ *   L8-0  Product Typography Primitives
+ *   Q7-0  Product Spacing & Radius Primitives
+ */
+:root {
+  /* ── Color · base ───────────────────────────── */
+  --color-white: #ffffff;
+
+  /* ── Color · neutral ────────────────────────── */
+  --color-neutral-50: #fafafb;
+  --color-neutral-100: #f3f3f6;
+  --color-neutral-200: #e7e7eb;
+  --color-neutral-300: #d4d4da;
+  --color-neutral-400: #93939a;
+  --color-neutral-500: #72727a;
+  --color-neutral-600: #54545c;
+  --color-neutral-700: #47474e;
+  --color-neutral-800: #2d2d34;
+  --color-neutral-900: #1d1d23;
+  --color-neutral-950: #111114;
+
+  /* ── Color · lavender (brand) ───────────────── */
+  --color-lavender-50: #f8f6ff;
+  --color-lavender-100: #f0ecff;
+  --color-lavender-200: #e0d8ff;
+  --color-lavender-300: #ccbeff;
+  --color-lavender-400: #b398ff;
+  --color-lavender-500: #9770f4;
+  --color-lavender-600: #7d51da;
+  --color-lavender-700: #643db6;
+  --color-lavender-800: #4c2e8e;
+  --color-lavender-900: #361f68;
+  --color-lavender-950: #231447;
+
+  /* ── Color · gradients ──────────────────────── */
+  --color-gradient-brand-start: #ded2fa;
+  --color-gradient-brand-mid: #fce4f2;
+  --color-gradient-brand-end: #dfd3fa;
+  --color-gradient-canvas-start: #fffefb;
+  --color-gradient-canvas-end: #fcf8f1;
+  --gradient-brand: linear-gradient(
+    160deg,
+    var(--color-gradient-brand-start) 0%,
+    var(--color-gradient-brand-mid) 48%,
+    var(--color-gradient-brand-end) 100%
+  );
+  --gradient-canvas: linear-gradient(
+    180deg,
+    var(--color-gradient-canvas-start) 0%,
+    var(--color-gradient-canvas-end) 100%
+  );
+  --gradient-onboarding: linear-gradient(
+    135deg,
+    var(--color-lavender-50) 0%,
+    var(--color-lavender-100) 100%
+  );
+
+  /* ── Color · status ─────────────────────────── */
+  --color-green-50: #f0fbf2;
+  --color-green-200: #c4ecca;
+  --color-green-500: #3aaa52;
+  --color-green-600: #00882f;
+  --color-green-700: #006e23;
+  --color-red-50: #fff5f4;
+  --color-red-200: #ffd1cd;
+  --color-red-500: #ef4c4b;
+  --color-red-600: #d21e2b;
+  --color-red-700: #ae081c;
+  --color-amber-50: #fff9f1;
+  --color-amber-200: #ffe1bd;
+  --color-amber-500: #f1901d;
+  --color-amber-600: #cc7200;
+  --color-amber-700: #a65700;
+  --color-blue-50: #f3f8ff;
+  --color-blue-200: #c9e0ff;
+  --color-blue-500: #438cf3;
+  --color-blue-600: #216fd9;
+  --color-blue-700: #1557b5;
+
+  /* ── Typography · families ──────────────────── */
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ── Typography · sizes ─────────────────────── */
+  --text-caption: 12px;
+  --text-label-sm: 12px;
+  --text-overline: 12px;
+  --text-body-sm: 14px;
+  --text-label-md: 14px;
+  --text-code: 14px;
+  --text-body-md: 16px;
+  --text-reading: 16px;
+  --text-body-lg: 18px;
+  --text-heading-4: 18px;
+  --text-heading-3: 20px;
+  --text-heading-2: 24px;
+  --text-heading-1: 32px;
+
+  /* ── Typography · weights ───────────────────── */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ── Typography · tracking ──────────────────── */
+  --tracking-heading-1: -0.015em;
+  --tracking-heading-2: -0.01em;
+  --tracking-heading-3: -0.005em;
+  --tracking-body: -0.011em;
+  --tracking-normal: 0em;
+  --tracking-overline: 0.06em;
+
+  /* ── Typography · leading ───────────────────── */
+  --leading-caption: 16px;
+  --leading-label-sm: 16px;
+  --leading-overline: 16px;
+  --leading-body-sm: 20px;
+  --leading-label-md: 20px;
+  --leading-code: 20px;
+  --leading-body-md: 24px;
+  --leading-heading-4: 24px;
+  --leading-reading: 28px;
+  --leading-body-lg: 28px;
+  --leading-heading-3: 28px;
+  --leading-heading-2: 32px;
+  --leading-heading-1: 36px;
+
+  /* ── Spacing (8px grid) ─────────────────────── */
+  --spacing-0: 0px;
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 40px;
+  --spacing-6: 48px;
+  --spacing-8: 64px;
+  --spacing-10: 80px;
+  --spacing-12: 96px;
+  --spacing-16: 128px;
+
+  /* ── Radius ─────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* ── Motion (CSS side; JS springs live in motion.ts) ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  /* ── Focus ──────────────────────────────────── */
+  --focus-ring: 0 0 0 3px var(--color-white), 0 0 0 5px var(--color-lavender-500);
+}

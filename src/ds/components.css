@@ -1,0 +1,308 @@
+/* Component primitives. Every value resolves to a token from tokens.css. */
+
+/* ── Button ───────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  width: 100%;
+  height: var(--spacing-8);
+  padding: 0 var(--spacing-3);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-label-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.btn--primary {
+  background: var(--color-neutral-900);
+  color: var(--color-white);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-neutral-950);
+  box-shadow: 0 8px 24px -12px rgb(29 29 35 / 0.55);
+}
+.btn--secondary {
+  background: transparent;
+  border-color: var(--color-neutral-300);
+  color: var(--color-neutral-900);
+}
+.btn--secondary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--color-white) 70%, transparent);
+  border-color: var(--color-neutral-400);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.32;
+}
+.btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+.btn__icon {
+  display: inline-flex;
+  width: var(--spacing-3);
+  height: var(--spacing-3);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.btn__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.btn:hover:not(:disabled) .btn__icon--nudge {
+  transform: translateX(3px);
+}
+.btn:hover:not(:disabled) .btn__icon--spin {
+  transform: rotate(-45deg);
+}
+
+/* ── Indicator ────────────────────────────────────────────────────────────── */
+.indicator {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-lavender-100);
+  color: var(--color-lavender-50);
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+.indicator[data-checked='true'] {
+  background: var(--color-lavender-700);
+  animation: indicator-pop var(--duration-slow) var(--ease-out);
+}
+.indicator__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+}
+.indicator__check {
+  display: block;
+}
+@keyframes indicator-pop {
+  0% { transform: scale(0.82); }
+  55% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Shared hover lift for selectable surfaces */
+.tile,
+.chip,
+.choice {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.tile:focus-visible,
+.chip:focus-visible,
+.choice:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.tile[data-selected='true'],
+.choice[data-selected='true'] {
+  z-index: 1; /* keep the travelling highlight above neighbours */
+}
+
+/* ── OptionTile ───────────────────────────────────────────────────────────── */
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: var(--spacing-12);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+.tile:hover[data-selected='false'] {
+  box-shadow: 0 0 0 1px var(--color-lavender-200), 0 10px 24px -16px rgb(100 61 182 / 0.45);
+}
+.tile__highlight,
+.choice__highlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--color-lavender-200);
+}
+.tile__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.tile__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -2px 0 0 -2px;
+  color: var(--color-neutral-700);
+  transition: color var(--duration-base) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+}
+.tile:hover .tile__icon {
+  transform: translateY(-1px) rotate(-4deg);
+}
+.tile[data-selected='true'] .tile__icon {
+  color: var(--color-lavender-700);
+}
+.tile__label {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-900);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.tile[data-selected='true'] .tile__label {
+  color: var(--color-lavender-900);
+}
+
+/* ── Chip ─────────────────────────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  height: var(--spacing-8);
+  padding: 0 var(--spacing-2) 0 var(--spacing-3);
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+}
+.chip:hover[data-selected='false'] {
+  box-shadow: 0 0 0 1px var(--color-lavender-200);
+}
+.chip[data-selected='true'] {
+  background: var(--color-lavender-200);
+}
+.chip__label {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-950);
+  white-space: nowrap;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.chip[data-selected='true'] .chip__label {
+  color: var(--color-lavender-900);
+}
+
+/* ── ChoiceCard ───────────────────────────────────────────────────────────── */
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--color-white) 80%, transparent);
+}
+.choice:hover[data-selected='false'] {
+  background: var(--color-white);
+  box-shadow: 0 12px 28px -18px rgb(100 61 182 / 0.5);
+}
+.choice__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.choice__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+.choice__title {
+  color: var(--color-neutral-950);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.choice__description {
+  color: var(--color-neutral-600);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.choice[data-selected='true'] .choice__title {
+  color: var(--color-lavender-900);
+}
+.choice[data-selected='true'] .choice__description {
+  color: var(--color-lavender-700);
+}
+
+/* Level bars glyph — recolours with its card, bars rise when selected */
+.level-bars__bg {
+  fill: var(--color-neutral-100);
+  transition: fill var(--duration-base) var(--ease-out);
+}
+.level-bars__bar {
+  fill: var(--color-neutral-300);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: fill var(--duration-base) var(--ease-out);
+}
+.level-bars__bar[data-filled='true'] {
+  fill: var(--color-neutral-800);
+}
+.choice[data-selected='true'] .level-bars__bg {
+  fill: var(--color-lavender-50);
+}
+.choice[data-selected='true'] .level-bars__bar {
+  fill: var(--color-lavender-200);
+}
+.choice[data-selected='true'] .level-bars__bar[data-filled='true'] {
+  fill: var(--color-lavender-800);
+  animation: bar-rise 520ms var(--ease-out) both;
+}
+@keyframes bar-rise {
+  0% { transform: scaleY(0.2); }
+  60% { transform: scaleY(1.12); }
+  100% { transform: scaleY(1); }
+}
+
+/* ── InfoCard ─────────────────────────────────────────────────────────────── */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  background: var(--color-lavender-200);
+}
+.info-card__label {
+  color: var(--color-lavender-700);
+}
+.info-card__value {
+  color: var(--color-lavender-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator[data-checked='true'],
+  .choice[data-selected='true'] .level-bars__bar[data-filled='true'] {
+    animation: none;
+  }
+  .tile:hover .tile__icon,
+  .btn:hover .btn__icon {
+    transform: none;
+  }
+}
