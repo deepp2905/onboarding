@@ -41,7 +41,7 @@ Three quick questions, then straight into a Discover page shaped by the answers,
 
 | Where | What it shows | Driven by |
 |---|---|---|
-| Greeting | "Dmitry, here's where to start with marketing." | Topic |
+| Greeting | "Dmitry, here's where to start with marketing." (or "here's what's next in…", "let's go deeper into…") | Topic + level |
 | Featured lesson | A different lead lesson for beginner, intermediate and advanced | Level |
 | Recommended lessons for you | Your focus areas first, then lessons closest to your level | Focus + level |
 | Quick 10 minute watches | Short lessons first, for a phone at lunch | Lesson length |
@@ -55,8 +55,9 @@ Copy rules: second person, short sentences, the learner's own words reflected ba
 ## Motion, and why it works
 
 - **One flow, not four pages.** Steps slide in the direction you're travelling and reverse on Back. The panel springs to each step's height, so the buttons glide instead of jumping.
-- **Motion that explains.** The selection highlight slides between options, checkmarks draw themselves, and Back grows in to share the row with Continue.
-- **Refined, pass by pass.** One shared press feel (0.97 scale, same spring) everywhere. Indicators grow from half scale instead of zero, so they feel less theatrical. Hover motion is shorter and limited to mouse and trackpad, so taps never stick. Discover enters in one ranked order instead of all at once. Popovers scale from the corner they're anchored to. Ambient orbs are softened with their gradients instead of a heavy blur, to protect frame rate.
+- **A considered first arrival.** On the first question the options stagger in one by one, and the Continue row fades in only once they've landed. On Discover the nav is there immediately while the greeting, featured lesson, path card and rows rise in ranked order.
+- **Motion that explains.** The selection highlight slides between options, checkmarks draw themselves, level bars rise one after another when you pick a level, and Back grows in to share the row with Continue.
+- **Refined, pass by pass.** One shared press feel (0.97 scale, same spring) everywhere. Indicators grow from half scale instead of zero, so they feel less theatrical. Hover is a quiet fill to white instead of an outline, and a topic's icon does one gentle float rather than tilting, limited to mouse and trackpad so taps never stick. Discover enters in one ranked order instead of all at once. Popovers scale from the corner they're anchored to. Ambient orbs are softened with their gradients instead of a heavy blur, to protect frame rate.
 - **Respectful.** With `prefers-reduced-motion`, movement becomes fades and the panel height snaps.
 
 ## Phone and desktop
