@@ -12,6 +12,9 @@ Three quick questions, then straight into a Discover page shaped by the answers,
 - **Headspace:** one calm question per screen, generous whitespace, nothing competing with the choice.
 - **Uxcel:** a summary to review before committing, and a home screen that immediately reflects your answers.
 
+![Onboarding references from Mobbin, gathered on the Paper canvas](docs/mobbin-onboarding-references.png)
+*Research board in Paper: onboarding flows from education and learning apps, pulled in with the Mobbin MCP.*
+
 **Why not a chatbot.** My first idea was a conversational agent that interviews you. I dropped it for onboarding: it's heavy for gathering three facts, it makes you type (slow on a phone at lunch, like Priya), and it's harder to scan, undo or change. A chat agent earns its place later, when it actually *builds* the personalized path. That's where the **Build a path** card on Discover leads.
 
 **Nine topics, on purpose.** The brief starts with marketing, but the topic gallery offers nine, each with its own sub-topics, levels and lessons. A first question with one real answer isn't a question, and it proves the flow adapts to any catalog.
