@@ -37,9 +37,9 @@ export function ReadyStep({ topic, focus, level, onEdit }: Props) {
         </motion.span>
       </motion.div>
       <div className="summary">
-        <InfoCard label="Your topic" value={topic.label} onEdit={() => onEdit('topic')} />
-        <InfoCard label="Your interests" value={formatInterests(topic, focus)} onEdit={() => onEdit('focus')} />
-        <InfoCard label="Your level" value={level.label} onEdit={() => onEdit('level')} />
+        <InfoCard label="You want to learn" value={topic.label} onEdit={() => onEdit('topic')} />
+        <InfoCard label="You’re focusing on" value={formatInterests(topic, focus)} onEdit={() => onEdit('focus')} />
+        <InfoCard label="You’re starting as" value={level.label} onEdit={() => onEdit('level')} />
       </div>
     </div>
   );

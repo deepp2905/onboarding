@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, itemVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
-import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
+import { LEVELS, USER_NAME, formatInterests, midSentence, type Level, type LevelId, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 
 export interface Preferences {
@@ -62,6 +62,13 @@ const menuItemVariants: Variants = {
 
 const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.label ?? id;
 
+/** Level-aware wording, so recommendations say who they were picked for. */
+const LEVEL_COPY: Record<LevelId, { picked: string; peers: string; pathStart: string }> = {
+  beginner: { picked: 'beginners', peers: 'beginners', pathStart: 'starting from the basics' },
+  intermediate: { picked: 'intermediate learners', peers: 'learners who know the basics', pathStart: 'building on what you know' },
+  advanced: { picked: 'advanced learners', peers: 'experienced learners', pathStart: 'going deep on the hard stuff' },
+};
+
 export function Discover({ topic, focus, level, onRestart }: Props) {
   const [query, setQuery] = useState('');
   const [showPathPromo, setShowPathPromo] = useState(true);
@@ -102,6 +109,8 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
       lessons: needle ? row.lessons.filter((lesson) => lesson.title.toLowerCase().includes(needle)) : row.lessons,
     }))
     .filter((row) => row.lessons.length > 0);
+  const noResults = needle !== '' && visibleRows.length === 0;
+  const copy = LEVEL_COPY[level.id];
 
   return (
     <motion.div className="discover" variants={staggerPageVariants} initial="hidden" animate="shown" exit="gone">
@@ -195,69 +204,74 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
       </motion.header>
 
       <main className="discover__content">
-        <motion.section className="discover__hero" variants={riseVariants}>
-          <h1 className="discover__greeting">{USER_NAME}, what would you like to learn today?</h1>
-          <div className="featured">
-            <div className="featured__art" aria-hidden="true">
-              <span className="featured__dot featured__dot--back" />
-              <span className="featured__dot featured__dot--front" />
-            </div>
-            <div className="featured__info">
-              <span className="featured__tag">Recommended for you</span>
-              <div className="featured__copy">
-                <h2 className="text-heading-1">{featured.title}</h2>
-                <p className="text-body-md featured__blurb">{featured.blurb}</p>
+        {/* A search with no matches clears the page down to the empty box below. */}
+        {!noResults && (
+          <motion.section className="discover__hero" variants={riseVariants}>
+            <h1 className="discover__greeting">
+              {USER_NAME}, here’s where to start with {topic.phrase}.
+            </h1>
+            <div className="featured">
+              <div className="featured__art" aria-hidden="true">
+                <span className="featured__dot featured__dot--back" />
+                <span className="featured__dot featured__dot--front" />
               </div>
-              <motion.button
-                type="button"
-                className="featured__cta"
-                whileTap={{ scale: 0.97 }}
-                transition={spring.snappy}
-              >
-                <PlayIcon />
-                Start lesson
-              </motion.button>
-            </div>
-          </div>
-          <AnimatePresence initial={false}>
-            {showPathPromo && (
-              <motion.aside
-                key="path-promo"
-                className="path-promo"
-                aria-label="Personalized learning path"
-                // Collapse into the hero's 24px gap so the rows below glide up.
-                exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
-                transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
-              >
-                <span className="path-promo__icon">
-                  <PathIcon />
-                </span>
-                <div className="path-promo__copy">
-                  <h2 className="path-promo__title">Get a personalized learning path made for you</h2>
-                  <p className="path-promo__body">
-                    We’ll plan the steps, match how you learn and stay with you until it clicks.
-                  </p>
+              <div className="featured__info">
+                <span className="featured__tag">Picked for {copy.picked}</span>
+                <div className="featured__copy">
+                  <h2 className="text-heading-1">{featured.title}</h2>
+                  <p className="text-body-md featured__blurb">{featured.blurb}</p>
                 </div>
                 <motion.button
                   type="button"
-                  className="path-promo__cta"
+                  className="featured__cta"
                   whileTap={{ scale: 0.97 }}
                   transition={spring.snappy}
                 >
-                  Build a path
+                  <PlayIcon />
+                  Start lesson
                 </motion.button>
-                <button
-                  type="button"
-                  className="path-promo__close"
-                  aria-label="Dismiss"
-                  onClick={() => setShowPathPromo(false)}
+              </div>
+            </div>
+            <AnimatePresence initial={false}>
+              {showPathPromo && (
+                <motion.aside
+                  key="path-promo"
+                  className="path-promo"
+                  aria-label="Personalized learning path"
+                  // Collapse into the hero's 24px gap so the rows below glide up.
+                  exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
+                  transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
                 >
-                  <CloseIcon />
-                </button>
-              </motion.aside>
-            )}
-          </AnimatePresence>
-        </motion.section>
+                  <span className="path-promo__icon">
+                    <PathIcon />
+                  </span>
+                  <div className="path-promo__copy">
+                    <h2 className="path-promo__title">Get a personalized path in {topic.phrase}</h2>
+                    <p className="path-promo__body">
+                      Built around {midSentence(formatInterests(topic, focus))}, {copy.pathStart}.
+                    </p>
+                  </div>
+                  <motion.button
+                    type="button"
+                    className="path-promo__cta"
+                    whileTap={{ scale: 0.97 }}
+                    transition={spring.snappy}
+                  >
+                    Build a path
+                  </motion.button>
+                  <button
+                    type="button"
+                    className="path-promo__close"
+                    aria-label="Dismiss"
+                    onClick={() => setShowPathPromo(false)}
+                  >
+                    <CloseIcon />
+                  </button>
+                </motion.aside>
+              )}
+            </AnimatePresence>
+          </motion.section>
+        )}
 
         {visibleRows.map((row) => (
           <motion.section key={row.id} className="lesson-section" variants={settleVariants}>
@@ -268,24 +282,21 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                 <ChevronRightIcon />
               </button>
             </div>
-            <div className="lesson-row">
-              {row.lessons.map((lesson, i) => (
-                <article key={lesson.title} className="lesson">
-                  <Thumb tone={row.tones[i % row.tones.length]} shape={i % 4} />
-                  <div className="lesson__text">
-                    <h3 className="lesson__title">{lesson.title}</h3>
-                    <p className="lesson__meta">
-                      {levelLabel(lesson.level)} · {lesson.mins} mins
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <LessonRow lessons={row.lessons} tones={row.tones} />
           </motion.section>
         ))}
 
-        {visibleRows.length === 0 && (
-          <p className="discover__empty text-body-md">No lessons match “{query.trim()}”. Try a shorter word.</p>
+        {/* Suggestions reuse the "Recommended" row: their focus areas first, nearest their level. */}
+        {noResults && (
+          <section className="search-empty" aria-live="polite">
+            <div className="search-empty__copy">
+              <h2 className="text-heading-2">Nothing for “{query.trim()}”</h2>
+              <p className="text-body-md search-empty__body">
+                Here are a few lessons in {topic.phrase} popular with {copy.peers}.
+              </p>
+            </div>
+            <LessonRow lessons={rows[0].lessons} tones={TONES[0]} />
+          </section>
         )}
       </main>
     </motion.div>
@@ -306,6 +317,24 @@ function SearchField({ value, onChange, onSubmit }: { value: string; onChange: (
         onKeyDown={(e) => e.key === 'Enter' && onSubmit?.()}
       />
     </label>
+  );
+}
+
+function LessonRow({ lessons, tones }: { lessons: Lesson[]; tones: { bg: string; dot: string }[] }) {
+  return (
+    <div className="lesson-row">
+      {lessons.map((lesson, i) => (
+        <article key={lesson.title} className="lesson">
+          <Thumb tone={tones[i % tones.length]} shape={i % 4} />
+          <div className="lesson__text">
+            <h3 className="lesson__title">{lesson.title}</h3>
+            <p className="lesson__meta">
+              {levelLabel(lesson.level)} · {lesson.mins} mins
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
   );
 }
 

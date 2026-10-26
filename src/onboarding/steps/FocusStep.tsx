@@ -16,7 +16,7 @@ export function FocusStep({ topic, value, onToggle }: Props) {
   return (
     <div className="step">
       <motion.h1 ref={headingRef} id={headingId} className="step__heading text-heading-1" variants={itemVariants}>
-        What would you like to focus on?
+        What part of {topic.phrase} do you want to focus on?
       </motion.h1>
       <div className="chip-cloud" role="group" aria-labelledby={headingId}>
         {topic.subtopics.map((st) => (
