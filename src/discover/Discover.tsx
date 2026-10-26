@@ -1,8 +1,10 @@
 import { AnimatePresence, motion, type Variants } from 'motion/react';
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, itemVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, formatInterests, midSentence, type Level, type LevelId, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
+import { LessonMenu } from './LessonMenu';
 
 export interface Preferences {
   topic: Topic;
@@ -73,11 +75,32 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
   const [query, setQuery] = useState('');
   const [showPathPromo, setShowPathPromo] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [saved, setSaved] = useState<Set<string>>(() => new Set());
+  const [toast, setToast] = useState<{ id: number; message: string } | null>(null);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const featured = CONTENT[topic.id].featured[level.id];
   const rows = useMemo(() => buildRows(topic, focus, level.id), [topic, focus, level.id]);
 
   const closeMenu = () => setMenuOpen(false);
+
+  const notify = useCallback((message: string) => setToast({ id: Date.now(), message }), []);
+  const toggleSave = useCallback(
+    (title: string) =>
+      setSaved((prev) => {
+        const next = new Set(prev);
+        if (!next.delete(title)) next.add(title);
+        return next;
+      }),
+    [],
+  );
+  const cardActions = { saved, onToggleSave: toggleSave, notify };
+
+  // Each toast replaces the last and clears itself.
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 2400);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   // While the overlay is open: Escape closes it and hands focus back to the toggle,
   // widening past the mobile breakpoint closes it, and the page behind can't scroll.
@@ -282,7 +305,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                 <ChevronRightIcon />
               </button>
             </div>
-            <LessonRow lessons={row.lessons} tones={row.tones} />
+            <LessonRow lessons={row.lessons} tones={row.tones} {...cardActions} />
           </motion.section>
         ))}
 
@@ -304,11 +327,29 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                   Recommended in {topic.phrase} for {copy.picked}
                 </h2>
               </div>
-              <LessonRow lessons={rows[0].lessons} tones={TONES[0]} />
+              <LessonRow lessons={rows[0].lessons} tones={TONES[0]} {...cardActions} />
             </section>
           </>
         )}
       </main>
+
+      {createPortal(
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              key={toast.id}
+              className="toast"
+              role="status"
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1, transition: spring.soft }}
+              exit={{ opacity: 0, y: 6, transition: { duration: 0.16, ease: easeOut } }}
+            >
+              {toast.message}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
     </motion.div>
   );
 }
@@ -330,14 +371,30 @@ function SearchField({ value, onChange, onSubmit }: { value: string; onChange: (
   );
 }
 
-function LessonRow({ lessons, tones }: { lessons: Lesson[]; tones: { bg: string; dot: string }[] }) {
+interface LessonRowProps {
+  lessons: Lesson[];
+  tones: { bg: string; dot: string }[];
+  saved: Set<string>;
+  onToggleSave: (title: string) => void;
+  notify: (message: string) => void;
+}
+
+function LessonRow({ lessons, tones, saved, onToggleSave, notify }: LessonRowProps) {
   return (
     <div className="lesson-row">
       {lessons.map((lesson, i) => (
         <article key={lesson.title} className="lesson">
           <Thumb tone={tones[i % tones.length]} shape={i % 4} />
           <div className="lesson__text">
-            <h3 className="lesson__title">{lesson.title}</h3>
+            <div className="lesson__title-row">
+              <h3 className="lesson__title">{lesson.title}</h3>
+              <LessonMenu
+                lesson={lesson}
+                saved={saved.has(lesson.title)}
+                onToggleSave={() => onToggleSave(lesson.title)}
+                notify={notify}
+              />
+            </div>
             <p className="lesson__meta">
               {levelLabel(lesson.level)} · {lesson.mins} mins
             </p>

@@ -222,3 +222,88 @@ export function CloseIcon(props: IconProps) {
     </svg>
   );
 }
+
+/* ── Lesson card menu (24px grid, drawn at 18px) ─────────────────────────── */
+
+function MenuSvg({ children, ...props }: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <g {...strokeProps} strokeWidth={1.75}>
+        {children}
+      </g>
+    </svg>
+  );
+}
+
+export function MoreIcon(props: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" {...props}>
+      <g fill="currentColor">
+        <circle cx="10" cy="4.5" r="1.5" />
+        <circle cx="10" cy="10" r="1.5" />
+        <circle cx="10" cy="15.5" r="1.5" />
+      </g>
+    </svg>
+  );
+}
+
+export function BookmarkIcon({ filled, ...props }: IconProps & { filled?: boolean }) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M6.5 4.5h11v15l-5.5-3.75L6.5 19.5z" fill={filled ? 'currentColor' : 'none'} />
+    </MenuSvg>
+  );
+}
+
+export function PlusCircleIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 8.5v7M8.5 12h7" />
+    </MenuSvg>
+  );
+}
+
+export function SparkleIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M12 4l1.9 5.1L19 11l-5.1 1.9L12 18l-1.9-5.1L5 11l5.1-1.9z" />
+    </MenuSvg>
+  );
+}
+
+export function ShareIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M12 14.5V4M8 7.5L12 4l4 3.5" />
+      <path d="M8.5 10.5H7a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 7 19.5h10a1.5 1.5 0 0 0 1.5-1.5v-6a1.5 1.5 0 0 0-1.5-1.5h-1.5" />
+    </MenuSvg>
+  );
+}
+
+export function LinkIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M10.5 13.5a3.5 3.5 0 0 0 5 0l2.5-2.5a3.5 3.5 0 0 0-5-5l-1 1" />
+      <path d="M13.5 10.5a3.5 3.5 0 0 0-5 0L6 13a3.5 3.5 0 0 0 5 5l1-1" />
+    </MenuSvg>
+  );
+}
+
+export function EyeOffIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M4 4l16 16" />
+      <path d="M9.9 6.2A8.9 8.9 0 0 1 12 6c5 0 8 6 8 6a14.6 14.6 0 0 1-2.4 3.2M6.6 7.6C4.9 9 4 12 4 12s3 6 8 6a8 8 0 0 0 3.4-.8" />
+      <path d="M10 10.1a2.5 2.5 0 0 0 3.9 3.9" />
+    </MenuSvg>
+  );
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <MenuSvg {...props}>
+      <path d="M5.5 12.5l4 4 9-9" />
+    </MenuSvg>
+  );
+}
