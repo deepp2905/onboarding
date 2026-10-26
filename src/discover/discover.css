@@ -930,6 +930,14 @@
 }
 
 @media (max-width: 560px) {
+  /* Section headings stay on one line beside "See all". */
+  .lesson-section__header {
+    align-items: center;
+  }
+  .lesson-section__header h2 {
+    font-size: var(--text-heading-3);
+    line-height: var(--leading-heading-3);
+  }
   .discover__nav .wordmark {
     font-size: var(--text-heading-3);
   }

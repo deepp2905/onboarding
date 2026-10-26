@@ -153,6 +153,8 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
     .filter((row) => row.lessons.length > 0);
   const noResults = needle !== '' && visibleRows.length === 0;
   const copy = LEVEL_COPY[level.id];
+  // The first sub-topic the learner picked names the no-results suggestions.
+  const firstPick = topic.subtopics.find((st) => focus.includes(st.id))?.label ?? topic.phrase;
 
   return (
     <motion.div className="discover" variants={pageVariants} initial={false} animate="shown" exit="gone">
@@ -350,7 +352,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
             <section className="lesson-section">
               <div className="lesson-section__header">
                 <h2 className="text-heading-2">
-                  Recommended in {topic.phrase} for {copy.picked}
+                  Recommended for {firstPick}
                 </h2>
               </div>
               <LessonRow lessons={rows[0].lessons} tones={TONES[0]} {...cardActions} />
