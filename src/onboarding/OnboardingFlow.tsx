@@ -1,8 +1,8 @@
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRightIcon, Button, easeOut, pageVariants, spring, stepVariants } from '../ds';
 import type { Preferences } from '../discover/Discover';
-import { getLevel, getTopic, type LevelId, type Topic } from './data';
+import { TOPICS, getLevel, getTopic, type LevelId, type Topic } from './data';
 import { StepCounter } from './StepCounter';
 import { FocusStep } from './steps/FocusStep';
 import { LevelStep } from './steps/LevelStep';
@@ -11,6 +11,12 @@ import { TopicStep } from './steps/TopicStep';
 
 const STEPS = ['topic', 'focus', 'level', 'ready'] as const;
 type StepId = (typeof STEPS)[number];
+
+// The first page's elements carry their own entrances; keep the shell still.
+const onboardingPageVariants: Variants = { ...pageVariants, hidden: {}, shown: {} };
+const ENTRY_CONTENT_DELAY = 0.12;
+const ENTRY_STAGGER = 0.035; // Match the existing step/card stagger.
+const ENTRY_ACTION_DELAY = ENTRY_CONTENT_DELAY + (TOPICS.length + 1) * ENTRY_STAGGER;
 
 /**
  * One persistent shell (header, background, action row) with the step content
@@ -23,6 +29,20 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
   const [topicId, setTopicId] = useState<Topic['id'] | null>(null);
   const [focus, setFocus] = useState<string[]>([]);
   const [levelId, setLevelId] = useState<LevelId | null>(null);
+  const [isFirstEntry, setIsFirstEntry] = useState(true);
+  const reduceMotion = useReducedMotion();
+
+  // Only the first arrival uses this hierarchy. Back navigation keeps stepVariants.
+  const firstStepVariants: Variants = {
+    ...stepVariants,
+    enter: {},
+    center: {
+      transition: {
+        delayChildren: reduceMotion ? 0 : ENTRY_CONTENT_DELAY,
+        staggerChildren: reduceMotion ? 0 : ENTRY_STAGGER,
+      },
+    },
+  };
 
   const step = STEPS[index];
   const topic = getTopic(topicId);
@@ -35,6 +55,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
     step === 'ready';
 
   const go = (next: number) => {
+    setIsFirstEntry(false);
     setDirection(next > index ? 1 : -1);
     setIndex(next);
   };
@@ -78,7 +99,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
     <motion.div
       className="onboarding"
       data-step={step}
-      variants={pageVariants}
+      variants={onboardingPageVariants}
       initial="hidden"
       animate="shown"
       exit="gone"
@@ -97,12 +118,12 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
       <main className="onboarding__stage">
         <div className="panel">
           <AutoHeight>
-            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.section
                 key={step}
                 className="panel__step"
                 custom={direction}
-                variants={stepVariants}
+                variants={isFirstEntry ? firstStepVariants : stepVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
@@ -113,7 +134,12 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
             </AnimatePresence>
           </AutoHeight>
 
-          <div className="actions">
+          <motion.div
+            className="actions"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: easeOut, delay: reduceMotion ? 0 : ENTRY_ACTION_DELAY }}
+          >
             <AnimatePresence initial={false}>
               {showBack && (
                 <motion.div
@@ -149,7 +175,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: (prefs: Preferences
                 </AnimatePresence>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </main>
     </motion.div>

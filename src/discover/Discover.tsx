@@ -1,7 +1,7 @@
-import { AnimatePresence, motion, type Variants } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, fadeVariants, itemVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
+import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, easeOut, itemVariants, pageVariants, riseVariants, settleVariants, spring } from '../ds';
 import { LEVELS, USER_NAME, formatInterests, midSentence, type Level, type LevelId, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 import { LessonMenu } from './LessonMenu';
@@ -78,6 +78,12 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
   const [saved, setSaved] = useState<Set<string>>(() => new Set());
   const [toast, setToast] = useState<{ id: number; message: string } | null>(null);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
+  // The nav is present immediately. Only content groups join the entrance sequence.
+  const contentVariants: Variants = {
+    hidden: {},
+    shown: { transition: { delayChildren: reduceMotion ? 0 : 0.06, staggerChildren: reduceMotion ? 0 : 0.07 } },
+  };
   const featured = CONTENT[topic.id].featured[level.id];
   const rows = useMemo(() => buildRows(topic, focus, level.id), [topic, focus, level.id]);
 
@@ -136,8 +142,8 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
   const copy = LEVEL_COPY[level.id];
 
   return (
-    <motion.div className="discover" variants={staggerPageVariants} initial="hidden" animate="shown" exit="gone">
-      <motion.header className="discover__nav" variants={fadeVariants}>
+    <motion.div className="discover" variants={pageVariants} initial={false} animate="shown" exit="gone">
+      <header className="discover__nav">
         <div className="discover__nav-start">
           <button type="button" className="wordmark wordmark--button" onClick={onRestart} title="Start over">
             LearnVector
@@ -224,43 +230,46 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
 
-      <main className="discover__content">
+      <motion.main className="discover__content" variants={contentVariants} initial="hidden" animate="shown">
         {/* A search with no matches clears the page down to the empty box below. */}
         {!noResults && (
-          <motion.section className="discover__hero" variants={riseVariants}>
-            <h1 className="discover__greeting">
-              {USER_NAME}, here’s where to start with {topic.phrase}.
-            </h1>
-            <div className="featured">
-              <div className="featured__art" aria-hidden="true">
-                <span className="featured__dot featured__dot--back" />
-                <span className="featured__dot featured__dot--front" />
-              </div>
-              <div className="featured__info">
-                <span className="featured__tag">Picked for {copy.picked}</span>
-                <div className="featured__copy">
-                  <h2 className="text-heading-1">{featured.title}</h2>
-                  <p className="text-body-md featured__blurb">{featured.blurb}</p>
+          <section className="discover__hero">
+            <motion.div className="discover__intro" variants={riseVariants}>
+              <h1 className="discover__greeting">
+                {USER_NAME}, here’s where to start with {topic.phrase}.
+              </h1>
+              <div className="featured">
+                <div className="featured__art" aria-hidden="true">
+                  <span className="featured__dot featured__dot--back" />
+                  <span className="featured__dot featured__dot--front" />
                 </div>
-                <motion.button
-                  type="button"
-                  className="featured__cta"
-                  whileTap={{ scale: 0.97 }}
-                  transition={spring.snappy}
-                >
-                  <PlayIcon />
-                  Start lesson
-                </motion.button>
+                <div className="featured__info">
+                  <span className="featured__tag">Picked for {copy.picked}</span>
+                  <div className="featured__copy">
+                    <h2 className="text-heading-1">{featured.title}</h2>
+                    <p className="text-body-md featured__blurb">{featured.blurb}</p>
+                  </div>
+                  <motion.button
+                    type="button"
+                    className="featured__cta"
+                    whileTap={{ scale: 0.97 }}
+                    transition={spring.snappy}
+                  >
+                    <PlayIcon />
+                    Start lesson
+                  </motion.button>
+                </div>
               </div>
-            </div>
-            <AnimatePresence initial={false}>
+            </motion.div>
+            <AnimatePresence>
               {showPathPromo && (
                 <motion.aside
                   key="path-promo"
                   className="path-promo"
                   aria-label="Personalized learning path"
+                  variants={settleVariants}
                   // Collapse into the hero's 24px gap so the rows below glide up.
                   exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
                   transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
@@ -293,7 +302,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
                 </motion.aside>
               )}
             </AnimatePresence>
-          </motion.section>
+          </section>
         )}
 
         {visibleRows.map((row) => (
@@ -331,7 +340,7 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
             </section>
           </>
         )}
-      </main>
+      </motion.main>
 
       {createPortal(
         <AnimatePresence>

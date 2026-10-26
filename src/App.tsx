@@ -9,8 +9,8 @@ export default function App() {
   return (
     // Honour the OS "reduce motion" setting for every Motion animation in the tree.
     <MotionConfig reducedMotion="user">
-      {/* "wait": onboarding fades out fully before Discover rises in, and vice versa. */}
-      <AnimatePresence mode="wait" initial={false} onExitComplete={() => window.scrollTo(0, 0)}>
+      {/* "wait": the outgoing page clears before the next page's entrance starts. */}
+      <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
         {prefs ? (
           <Discover key="discover" {...prefs} onRestart={() => setPrefs(null)} />
         ) : (

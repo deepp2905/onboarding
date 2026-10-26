@@ -219,7 +219,8 @@
   padding: var(--spacing-8) var(--gutter) var(--spacing-12);
 }
 
-.discover__hero {
+.discover__hero,
+.discover__intro {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
