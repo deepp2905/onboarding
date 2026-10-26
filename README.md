@@ -75,23 +75,12 @@ On a phone, the Continue row is pinned within thumb reach, level cards stack as 
 
 ## Known issues
 
-- **No URL state.** Refresh restarts onboarding, browser Back leaves the site, and Discover can't be linked.
-- **Placeholder controls.** Nav links, See all, Start lesson, Build a path and My account don't do anything yet.
-- **Hide doesn't hide.** The card stays and nothing re-ranks, though the toast says it will.
-- **Lessons are keyed by title.** Saves, list keys and share links need stable ids.
-- **Focus is lost after Edit.** Focus falls to the page instead of moving to the new question's heading.
-- **Too much is announced.** The whole step is a live region, so screen readers can read every option on each step.
-- **Option groups aren't one Tab stop.** Radio groups should move with arrow keys, not Tab through all nine tiles.
-- **Focus rings vanish in high-contrast mode.** They're box-shadows, which forced-colors mode removes.
-- **Toasts may go unannounced.** The live region mounts with its text instead of staying in place.
-- **Search has no real label.** It relies on its placeholder.
-- **Menus are hand-built.** The lesson menu guesses its height to flip, and the mobile menu and Why-hide dialog don't trap focus.
-- **Heavy background and blur.** The orbs keep large GPU layers alive, and step transitions blur the whole panel.
-- **Entrance timing depends on topic count.** Adding a topic delays the Continue row.
-- **Fonts load from Google at runtime.** Headings refit after the serif arrives, and JetBrains Mono loads unused.
-- **No semantic tokens.** Components use raw lavender and neutral values, which blocks dark mode.
-- **Carousels need touch.** On a narrow window with a mouse, the hidden scrollbar leaves no way to scroll.
-- **No tests.** No component previews, screenshot tests or automated accessibility checks.
+- No URL state. Refresh restarts onboarding, browser Back leaves the site, and Discover can't be linked.
+- Focus rings vanish in high-contrast mode. They're box-shadows, which forced-colors mode removes.
+- Menus are hand-built. The lesson menu guesses its height to flip, and the mobile menu and Why-hide dialog don't trap focus.
+- No tests. No component previews, screenshot tests or automated accessibility checks.
+- Heavy background and blur. The orbs keep large GPU layers alive, and step transitions blur the whole panel.
+- No semantic tokens. Components use raw lavender and neutral values, which blocks dark mode.
 
 ## With more time I would
 
