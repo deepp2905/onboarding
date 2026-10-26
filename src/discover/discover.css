@@ -799,9 +799,9 @@
 }
 
 @media (max-width: 760px) {
-  /* Tighter side gutter on phones: 75% of the desktop curve. */
+  /* Phone gutter matches the onboarding screens' 16px side padding. */
   .discover {
-    --gutter: clamp(12px, 6.25vw, 120px);
+    --gutter: var(--spacing-2);
   }
   /* Nav slims to wordmark + toggle and stays pinned to the top; the menu drops
      down over the content from its bottom edge. */
