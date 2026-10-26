@@ -2,7 +2,7 @@
 
 **Prototype:** [onboarding.deeepatel.com](https://onboarding.deeepatel.com)
 
-Three quick questions, then straight into a Discover page shaped by the answers, which keeps learning from what you do on it. The goal: every screen after sign-in should feel like it already knows a little about you, without making you work for it.
+Three quick questions, then straight into a Discover page shaped by the answers, which keeps learning from what you do on it. Every screen should feel like it already knows a little about you, without making you work for it.
 
 ## How I used AI tools
 
@@ -16,7 +16,7 @@ Three quick questions, then straight into a Discover page shaped by the answers,
 
 ## How I approached the challenge
 
-I started in Paper, using the Mobbin MCP to pull onboarding flows from education and learning products: **Headspace**, **Duolingo**, **Uxcel** and **Codecademy**.
+I started in Paper, using the Mobbin MCP to pull onboarding flows from education and learning products:
 
 - **Duolingo, Codecademy:** pick a subject → narrow it → self-rate your level
 - **Headspace:** one question per screen, generous whitespace.
@@ -35,12 +35,12 @@ I started in Paper, using the Mobbin MCP to pull onboarding flows from education
 
 **Why not a chatbot.** It's heavy for gathering three facts, it makes you type (slow on a phone at lunch, like Priya), and it's harder to scan, undo or change. A chat agent can be used later to *build* the personalized path. 
 
-**Nine topics, on purpose.** The brief starts with marketing, but the topic gallery offers nine, each with its own sub-topics, levels and lessons. 
+**Nine topics, on purpose.** The brief starts with marketing, but the topic gallery offers nine with its own sub-topics and lessons. 
 
 ## UX decisions
 
 - **Ask little, then get out of the way.** What you want to learn, what to focus on, how familiar you are. 
-- **Personal questions.** Each question builds on your last answer ("What part of *marketing* do you want to focus on?").
+- **Personal questions.** Each question builds on your last answer ("In *marketing,* what do you want to focus on?")
 - **The learner stays in control.** A summary where each answer can be edited.
 - **Every lesson card has a ⋮ menu.** Save for later, Add to my path, Show more like this, Share, Copy link, and Hide. 
 - **Explain why, always.** Recommendations say who they were picked for and why.
@@ -49,7 +49,7 @@ I started in Paper, using the Mobbin MCP to pull onboarding flows from education
 
 | Where | What it shows | Driven by |
 |---|---|---|
-| Greeting | "Dmitry, here's where to start with marketing." (or "here's what's next in…", "let's go deeper into…") | Topic + level |
+| Greeting | "Dmitry, here's where to start" (or "let's go deeper into…") | Topic + level |
 | Featured lesson | A different lead lesson for beginner, intermediate and advanced | Level |
 | Recommended lessons for you | Your focus areas first, then lessons closest to your level | Focus + level |
 | Quick 10 minute watches | Short lessons first, for a phone at lunch | Lesson length |
@@ -58,7 +58,7 @@ I started in Paper, using the Mobbin MCP to pull onboarding flows from education
 | Search, no results | "Nothing for '…'" plus lessons popular with your level | Level |
 | Card menu feedback | Toasts confirm each action; Hide thanks you and says what changes | Your actions |
 
-Copy rules: second person, short sentences, the learner's own words reflected back, and no screen without a clear next action.
+Copy rules: second person, short sentences, the learner's own words and no screen without a clear next action.
 
 
 ## Known issues
@@ -73,11 +73,11 @@ Copy rules: second person, short sentences, the learner's own words reflected ba
 ## With more time I would
 
 - **Make feedback real.** Hide, Show more like this and Save should re-rank the rows, not just confirm.
-- **Edit without the detour.** Edit on the summary sends you back to that question, and should return you back to the summary.
+- **Improve Editing responses** Edit sends you back to that question, and should return you back to the summary.
 - **Edit preferences after onboarding.** Change topic, focus or level from Discover without starting over.
 - **Real thumbnails** in place of the abstract lavender art.
 - **Remember the learner.** Persist answers and saves across sessions; a refresh currently starts over.
-- **More craft and product thinking.** Work out how to get someone from sign-in to a *finished first lesson* as fast as possible.
+- **More craft and product thinking.** How to get someone from sign-in to a *finished first lesson* as fast as possible.
 
 ---
 
