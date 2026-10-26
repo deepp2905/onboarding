@@ -229,12 +229,13 @@
   .wordmark {
     font-size: var(--text-heading-3);
   }
+  /* The panel stretches to the viewport so the action row can pin to its bottom. */
   .onboarding__stage {
-    align-items: flex-start;
-    padding: 104px var(--spacing-2) var(--spacing-4);
+    align-items: stretch;
+    padding: 104px var(--spacing-2) 0;
   }
   .auto-height__inner {
-    padding-bottom: var(--spacing-5);
+    padding-bottom: var(--spacing-2);
   }
   .text-heading-1 {
     font-size: 26px;
@@ -251,10 +252,20 @@
   .chip__label {
     white-space: normal;
   }
+  /* Thumb-reach action bar: sits at the bottom of the screen on short steps and
+     stays pinned over long ones. The frosted ground fades in over its top padding
+     so scrolled content slips under it without a hard edge. */
   .actions {
     position: sticky;
-    bottom: var(--spacing-2);
+    bottom: 0;
     z-index: 2;
+    margin: auto calc(-1 * var(--spacing-2)) 0;
+    padding: var(--spacing-3) var(--spacing-2) max(var(--spacing-2), env(safe-area-inset-bottom));
+    background: color-mix(in oklab, var(--color-lavender-50) 72%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--spacing-2));
+    mask-image: linear-gradient(to bottom, transparent, #000 var(--spacing-2));
   }
   .ready__title {
     align-items: flex-start;
