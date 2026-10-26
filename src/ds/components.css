@@ -159,9 +159,9 @@
   color: var(--color-neutral-700);
   transition: color var(--duration-base) var(--ease-out);
 }
-/* On tap or click release, after a 50ms pause: 200ms ease-out up, 200ms ease-in back down. Fill mode holds the rest position. */
+/* On tap or click release, after an 80ms pause: 200ms ease-out up, 200ms ease-in back down. Fill mode holds the rest position. */
 .tile__icon[data-bounce='true'] {
-  animation: icon-bounce 400ms 50ms both;
+  animation: icon-bounce 400ms 80ms both;
 }
 @keyframes icon-bounce {
   0% {
