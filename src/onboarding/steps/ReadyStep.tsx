@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { InfoCard, easeOut, spring } from '../../ds';
+import { InfoCard, easeOut, itemVariants, spring } from '../../ds';
 import { USER_NAME, formatInterests, type Level, type Topic } from '../data';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 export function ReadyStep({ topic, focus, level, onEdit }: Props) {
   return (
     <div className="step">
-      <div className="ready__title">
+      <motion.div className="ready__title" variants={itemVariants}>
         <h1 className="text-heading-1">{USER_NAME}, your experience is ready</h1>
         <motion.span
           className="ready__badge"
@@ -35,7 +35,7 @@ export function ReadyStep({ topic, focus, level, onEdit }: Props) {
             />
           </svg>
         </motion.span>
-      </div>
+      </motion.div>
       <div className="summary">
         <InfoCard label="Your topic" value={topic.label} onEdit={() => onEdit('topic')} />
         <InfoCard label="Your interests" value={formatInterests(topic, focus)} onEdit={() => onEdit('focus')} />

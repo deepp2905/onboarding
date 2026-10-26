@@ -1,5 +1,6 @@
 import { useId } from 'react';
-import { OptionTile, TopicIcon } from '../../ds';
+import { motion } from 'motion/react';
+import { OptionTile, TopicIcon, itemVariants } from '../../ds';
 import { TOPICS, type Topic } from '../data';
 
 interface Props {
@@ -11,9 +12,9 @@ export function TopicStep({ value, onChange }: Props) {
   const headingId = useId();
   return (
     <div className="step">
-      <h1 id={headingId} className="step__heading text-heading-1">
+      <motion.h1 id={headingId} className="step__heading text-heading-1" variants={itemVariants}>
         What would you like to learn?
-      </h1>
+      </motion.h1>
       <div className="topic-grid" role="radiogroup" aria-labelledby={headingId}>
         {TOPICS.map((topic) => (
           <OptionTile

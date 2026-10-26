@@ -33,6 +33,8 @@ export const stepVariants: Variants = {
       x: spring.soft,
       opacity: { duration: 0.32, ease: easeOut },
       filter: { duration: 0.32, ease: easeOut },
+      delayChildren: 0.04,
+      staggerChildren: 0.035,
     },
   },
   exit: (dir: number) => ({
@@ -87,4 +89,10 @@ export const riseVariants: Variants = {
 export const settleVariants: Variants = {
   hidden: { opacity: 0, y: 8 },
   shown: { opacity: 1, y: 0, transition: spring.soft },
+};
+
+/** Child items of a step — inherit enter/center from the step and stagger in. */
+export const itemVariants: Variants = {
+  enter: { opacity: 0, y: 12, scale: 0.985 },
+  center: { opacity: 1, y: 0, scale: 1, transition: spring.soft },
 };
