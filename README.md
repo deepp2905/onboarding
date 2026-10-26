@@ -20,6 +20,11 @@ Three quick questions, then straight into a Discover page shaped by the answers,
 ![Product color, typography, and spacing and radius primitives in Paper](docs/design-primitives.png)
 *Design primitives in Paper: color (neutral, lavender and status scales), typography and spacing/radius.*
 
+**Iterate on canvas until it's opinionated.** I mocked up flows with AI, then reworked them by hand. Early versions had a separate goal step and asked for sub-topics and experience in a different order. Alternatives tried a search-led topic picker and list, chip and card layouts for each question. I explored several Discover layouts before settling on three questions, a summary and one Discover page.
+
+![Onboarding and Discover iterations on the Paper canvas](docs/design-iterations.png)
+*Design iterations in Paper: early flows (left), alternative concepts for each question (right), and Discover layouts.*
+
 **Why not a chatbot.** My first idea was a conversational agent that interviews you. I dropped it for onboarding: it's heavy for gathering three facts, it makes you type (slow on a phone at lunch, like Priya), and it's harder to scan, undo or change. A chat agent earns its place later, when it actually *builds* the personalized path. That's where the **Build a path** card on Discover leads.
 
 **Nine topics, on purpose.** The brief starts with marketing, but the topic gallery offers nine, each with its own sub-topics, levels and lessons. A first question with one real answer isn't a question, and it proves the flow adapts to any catalog.
