@@ -1,6 +1,6 @@
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState, type CSSProperties } from 'react';
-import { ChevronRightIcon, PlayIcon, SearchIcon, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
+import { ChevronRightIcon, CloseIcon, PathIcon, PlayIcon, SearchIcon, fadeVariants, riseVariants, settleVariants, spring, staggerPageVariants } from '../ds';
 import { LEVELS, USER_NAME, type Level, type Topic } from '../onboarding/data';
 import { CONTENT, buildRows, type Lesson } from './content';
 
@@ -47,6 +47,7 @@ const levelLabel = (id: Lesson['level']) => LEVELS.find((lv) => lv.id === id)?.l
 
 export function Discover({ topic, focus, level, onRestart }: Props) {
   const [query, setQuery] = useState('');
+  const [showPathPromo, setShowPathPromo] = useState(true);
   const featured = CONTENT[topic.id].featured[level.id];
   const rows = useMemo(() => buildRows(topic, focus, level.id), [topic, focus, level.id]);
 
@@ -120,6 +121,44 @@ export function Discover({ topic, focus, level, onRestart }: Props) {
               </motion.button>
             </div>
           </div>
+          <AnimatePresence initial={false}>
+            {showPathPromo && (
+              <motion.aside
+                key="path-promo"
+                className="path-promo"
+                aria-label="Personalized learning path"
+                // Collapse into the hero's 24px gap so the rows below glide up.
+                exit={{ opacity: 0, height: 0, marginTop: -24, paddingBlock: 0, borderWidth: 0 }}
+                transition={{ ...spring.soft, opacity: { duration: 0.16 } }}
+              >
+                <span className="path-promo__icon">
+                  <PathIcon />
+                </span>
+                <div className="path-promo__copy">
+                  <h2 className="path-promo__title">Get a personalized learning path made for you</h2>
+                  <p className="path-promo__body">
+                    We’ll plan the steps, match how you learn and stay with you until it clicks.
+                  </p>
+                </div>
+                <motion.button
+                  type="button"
+                  className="path-promo__cta"
+                  whileTap={{ scale: 0.97 }}
+                  transition={spring.snappy}
+                >
+                  Build a path
+                </motion.button>
+                <button
+                  type="button"
+                  className="path-promo__close"
+                  aria-label="Dismiss"
+                  onClick={() => setShowPathPromo(false)}
+                >
+                  <CloseIcon />
+                </button>
+              </motion.aside>
+            )}
+          </AnimatePresence>
         </motion.section>
 
         {visibleRows.map((row) => (

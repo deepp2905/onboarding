@@ -202,3 +202,23 @@ export function PlayIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function PathIcon(props: IconProps) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <g fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+        <circle cx="6" cy="18" r="2.25" />
+        <circle cx="18" cy="6" r="2.25" />
+        <path d="M8.25 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.75" />
+      </g>
+    </svg>
+  );
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" {...props}>
+      <path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
