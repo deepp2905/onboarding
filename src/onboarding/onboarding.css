@@ -56,12 +56,7 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-8);
   width: min(560px, 100%);
-  transition: gap var(--duration-slow) var(--ease-out);
-}
-.onboarding[data-step='ready'] .panel {
-  gap: var(--spacing-4);
 }
 
 .auto-height {
@@ -69,6 +64,12 @@
 }
 .auto-height__inner {
   position: relative; /* containing block for popLayout's outgoing step */
+  /* Space above the action row lives inside the measured box, so the height
+     spring carries it and the row moves on a single clock. */
+  padding-bottom: var(--spacing-8);
+}
+.onboarding[data-step='ready'] .auto-height__inner {
+  padding-bottom: var(--spacing-4);
 }
 
 .actions {
@@ -233,8 +234,8 @@
     align-items: flex-start;
     padding: 104px var(--spacing-2) var(--spacing-4);
   }
-  .panel {
-    gap: var(--spacing-5);
+  .auto-height__inner {
+    padding-bottom: var(--spacing-5);
   }
   .text-heading-1 {
     font-size: 26px;
@@ -265,8 +266,7 @@
   .ambient__orb {
     animation: none;
   }
-  .ambient__orb,
-  .panel {
+  .ambient__orb {
     transition: none;
   }
 }
