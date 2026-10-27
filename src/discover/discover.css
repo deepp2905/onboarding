@@ -251,7 +251,7 @@
 .featured__art {
   position: relative;
   flex: 0 0 min(420px, 40%);
-  aspect-ratio: 560 / 315;
+  aspect-ratio: 560 / 394;
   overflow: clip;
   border-radius: var(--radius-lg);
   background: var(--gradient-lavender-glow);
