@@ -674,7 +674,6 @@
   aspect-ratio: 1;
   border-radius: var(--radius-full);
   background: var(--thumb-dot);
-  transition: translate var(--duration-base) var(--ease-out);
 }
 .thumb[data-shape='0'] .thumb__dot { left: 53.2%; top: 22.7%; width: 56.7%; }
 .thumb[data-shape='1'] .thumb__dot { left: -14.2%; top: 39.8%; width: 63.8%; }
@@ -794,9 +793,6 @@
   }
   .lesson {
     cursor: pointer;
-  }
-  .lesson:hover .thumb__dot {
-    translate: -4% -4%;
   }
   .lesson__more {
     opacity: 0;
@@ -1022,7 +1018,6 @@
 @media (prefers-reduced-motion: reduce) {
   .menu-toggle__bar,
   .featured__dot,
-  .thumb__dot,
   .see-all svg {
     transition: none;
   }
