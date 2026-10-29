@@ -279,7 +279,7 @@
   }
   .chip-cloud .chip {
     max-width: 100%;
-    padding-inline: 12px;
+    padding-inline: var(--spacing-3) var(--spacing-2);
   }
   .chip-cloud .chip__label {
     min-width: 0;
