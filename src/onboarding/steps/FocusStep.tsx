@@ -20,7 +20,7 @@ export function FocusStep({ topic, value, onToggle }: Props) {
       </motion.h1>
       <div className="chip-cloud" role="group" aria-labelledby={headingId}>
         {topic.subtopics.map((st) => (
-          <Chip key={st.id} label={st.label} selected={value.includes(st.id)} onToggle={() => onToggle(st.id)} />
+          <Chip key={st.id} label={st.chipLabel ?? st.label} selected={value.includes(st.id)} onToggle={() => onToggle(st.id)} />
         ))}
       </div>
     </div>

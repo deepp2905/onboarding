@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 
 /**
- * Keeps a single-line heading on one line by scaling its font size down until it
+ * Keeps a nowrap heading on one line by scaling its font size down until it
  * fits — never up past the size its CSS gives it. The room it can use is the
  * parent's width, or the widest sibling when one deliberately overhangs the panel
  * (the chip cloud and level row do on desktop).
@@ -16,7 +16,10 @@ export function useFitLine<T extends HTMLElement>() {
 
     const fit = () => {
       el.style.fontSize = '';
-      const base = parseFloat(getComputedStyle(el).fontSize);
+      const style = getComputedStyle(el);
+      // Mobile headings wrap at their CSS size instead of shrinking to fit.
+      if (style.whiteSpace !== 'nowrap') return;
+      const base = parseFloat(style.fontSize);
       const siblings = Array.from(parent.children, (child) => (child === el ? 0 : (child as HTMLElement).offsetWidth));
       const room = Math.max(parent.clientWidth, ...siblings);
       const natural = el.scrollWidth;

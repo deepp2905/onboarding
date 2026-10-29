@@ -98,7 +98,7 @@
 }
 .step__heading {
   color: var(--color-neutral-900);
-  white-space: nowrap; /* useFitLine scales the size down instead of wrapping */
+  white-space: nowrap; /* Desktop: useFitLine scales down instead of wrapping. */
 }
 
 /* Step 1 — topics */
@@ -262,6 +262,13 @@
     font-size: 26px;
     line-height: 32px;
   }
+  .step__heading {
+    white-space: normal;
+    text-wrap: balance;
+  }
+  .ready__title h1 {
+    text-wrap: balance;
+  }
   .topic-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-1);
@@ -270,7 +277,12 @@
     width: 100%;
     gap: var(--spacing-1);
   }
-  .chip__label {
+  .chip-cloud .chip {
+    max-width: 100%;
+    padding-inline: 12px;
+  }
+  .chip-cloud .chip__label {
+    min-width: 0;
     white-space: normal;
   }
   /* Thumb-reach action bar: sits at the bottom of the screen on short steps and

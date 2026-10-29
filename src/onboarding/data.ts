@@ -5,6 +5,8 @@ export const USER_NAME = 'Dmitry';
 export interface Subtopic {
   id: string;
   label: string;
+  /** Compact chip copy; the full label stays available for lesson matching. */
+  chipLabel?: string;
   /** Shorter wording for the summary sentence, e.g. "Content marketing" → "Content" */
   short?: string;
 }
@@ -17,10 +19,11 @@ export interface Topic {
   subtopics: Subtopic[];
 }
 
-const s = (label: string, short?: string): Subtopic => ({
+const s = (label: string, short?: string, chipLabel?: string): Subtopic => ({
   id: label.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
   label,
   short,
+  chipLabel,
 });
 
 export const TOPICS: Topic[] = [
@@ -35,7 +38,7 @@ export const TOPICS: Topic[] = [
       s('Brand strategy'),
       s('Ad campaigns'),
       s('Email marketing', 'Email'),
-      s('Search engine optimization (SEO)', 'SEO'),
+      s('Search engine optimization (SEO)', 'SEO', 'SEO'),
       s('Marketing analytics', 'Analytics'),
     ],
   },
@@ -44,12 +47,12 @@ export const TOPICS: Topic[] = [
     label: 'Finance',
     phrase: 'finance',
     subtopics: [
-      s('Personal budgeting', 'Budgeting'),
+      s('Personal budgeting', 'Budgeting', 'Budgeting'),
       s('Investing basics', 'Investing'),
       s('Stock markets'),
       s('Financial modeling'),
       s('Accounting'),
-      s('Crypto & digital assets', 'Crypto'),
+      s('Crypto & digital assets', 'Crypto', 'Crypto'),
       s('Retirement planning'),
       s('Taxes'),
     ],
@@ -61,9 +64,9 @@ export const TOPICS: Topic[] = [
     subtopics: [
       s('Web development'),
       s('Python'),
-      s('JavaScript & TypeScript'),
+      s('JavaScript & TypeScript', undefined, 'JS & TypeScript'),
       s('Mobile apps'),
-      s('Data structures & algorithms', 'Algorithms'),
+      s('Data structures & algorithms', 'Algorithms', 'Algorithms'),
       s('Backend & APIs'),
       s('DevOps & cloud'),
       s('Game development'),
@@ -81,7 +84,7 @@ export const TOPICS: Topic[] = [
       s('Sales'),
       s('Negotiation'),
       s('Operations'),
-      s('Startups & fundraising', 'Fundraising'),
+      s('Startups & fundraising', 'Fundraising', 'Startup funding'),
     ],
   },
   {
@@ -167,7 +170,7 @@ export const TOPICS: Topic[] = [
       s('UI design'),
       s('UX research'),
       s('Typography'),
-      s('Branding & identity', 'Branding'),
+      s('Branding & identity', 'Branding', 'Branding'),
       s('Motion design'),
       s('Illustration'),
       s('Design systems'),
